@@ -462,7 +462,10 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
 
         @Override
         public void onConnectionResumed(PHBridge bridge) {
-            Activity act = phHueSDK.getCurrentActivty();
+            
+            if (PHHomeActivity.this.isFinishing())
+                return;
+            
             Log.v(TAG, "onConnectionResumed" + bridge.getResourceCache().getBridgeConfiguration().getIpAddress());
             phHueSDK.getLastHeartbeat().put(bridge.getResourceCache().getBridgeConfiguration().getIpAddress(),  System.currentTimeMillis());
             for (int i = 0; i < phHueSDK.getDisconnectedAccessPoint().size(); i++) {
@@ -474,10 +477,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
                 }
             }
 
-            if (act instanceof PHHomeActivity) {
-                ((PHHomeActivity) act).refresh();
-            }
-
+            PHHomeActivity.this.refresh();
         }
 
         @Override
