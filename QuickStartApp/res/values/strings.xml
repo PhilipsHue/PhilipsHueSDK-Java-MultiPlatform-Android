@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hue QuickStart</string>
+    <string name="action_settings">Settings</string>
+    <string name="no_bridge">No Bridge Found.   Start Bridge Search</string>
+    <string name="btn_refresh">Refresh</string>
+    <string name="btn_find_bridge">Find new bridge</string>
+    <string name="btn_random">Random Lights</string>
+    <string name="search_progress">Searching ...</string>
+    <string name="btn_ok">Ok</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="txt_could_not_connect">No connection</string>
+    <string name="txt_click_random_button">Click the Random Lights Button to set your lamps to random colours.</string>
+    <string name="could_not_find_bridge">Hue cannot find your bridge. Please check that it is connected to the same Wi-Fi router as your app and press</string>
+    <string name="btn_more">More</string>
+    <string name="btn_reconnect">Reconnect</string>
+    <string name="enter_light_name">Enter light name</string>
+    <string name="txt_sdk_version">SDK Version</string>
+    <string name="menu_find_bridge">Find new Bridge</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="btn_retry">Retry</string>
+    <string name="searching_for_bridges">Searching for Bridges</string>
+    <string name="txt_selectbridges">Available Access Points</string>
+    <string name="txt_pushlink">Pushlink</string>
+    <string name="press_pushlink_button">Press the link button on the bridge</string>
+    <string name="txt_select_smartbridge">Please select a SmartBridge to use for this application</string>
+    <string name="title_error">Error</string>
+    <string name="txt_last_heartbeat">Last Heartbeat : </string>
+</resources>

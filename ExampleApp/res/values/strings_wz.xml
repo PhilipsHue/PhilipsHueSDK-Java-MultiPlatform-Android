@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="menu_settings">Settings</string>
+    <string name="txt_select_smartbridge">Please select a SmartBridge to use for this application</string>
+    <string name="btn_refresh">Refresh</string>
+    <string name="txt_find_new_bridge">Find New Bridge</string>
+    <string name="txt_configscreen_title">Configuration</string>
+    <string name="txt_EditLights">Edit lights</string>
+    <string name="txt_pushlink">Pushlink</string>
+    <string name="press_pushlink_button">Press the link button on the bridge</string>
+    <string name="txt_find_New_Lights_manual">Find New Lights(Manual)</string>
+    <string name="txt_find_New_Lights">Find New Lights</string>
+    <string name="txt_discovering">No new lights found yet</string>
+    <string name="btn_ok">Ok</string>
+    <string name="txt_find_lamp_info">1. Screw in the bulbs\n2. Turn on the light</string>
+    <string name="btn_start_searching">Start Searching</string>
+    <string name="img_content_desc">none</string>
+    <string name="btn_MyBridge">My bridge</string>
+    <string name="txt_checkforupdates">Check for updates</string>
+    <string name="txt_Dhcp">DHCP</string>
+    <string name="txt_httpprxy">HTTP-proxy</string>
+    <string name="btn_save">Save</string>
+    <string name="emptystringerror">Invalid value</string>
+    <string name="title_error">Error</string>
+    <string name="btn_cancel">Cancel</string>
+    
+    <string name="enter_light_name">Enter light name</string>
+    <string name="txt_IPaddress">IP address</string>
+    <string name="txt_Netmask">Netmask</string>
+    <string name="txt_Gateway">Gateway</string>
+    <string name="txt_server">Server</string>
+    <string name="txt_port">Port</string>
+    <string name="error_bridge_name">Please insert a bridge name between 4 and 16 characters</string>
+    <string name="txt_name">Name</string>
+    <string name="error_ip_address">You have entered an invalid IP address</string>
+     <string name="error_ip_netmask">You have entered an invalid Netmask address</string>
+      <string name="error_ip_gateway">You have entered an invalid Gateway address</string>
+    <string name="error_config">The new configuration could not be saved. Please try again.</string>
+    <string name="txt_saving">Saving…</string>
+    <string name="could_not_find_bridge">Hue cannot find your bridge. Please check that it is connected to the same Wi-Fi router as your app and press</string>
+    <string name="txt_could_not_connect">No connection</string>
+    <string name="btn_more">More</string>
+    <string name="btn_reconnect">Reconnect</string>
+    <string name="btn_search">Search</string>
+    <string name="txt_could_not_connect_advanced_title">Still can\'t find your bridge</string>
+    <string name="txt_could_not_find_advanced_message">You can either set up hue so you can use it when you\'re away from home, enter your bridge\'s IP address or find a new bridge.</string>
+    <string name="btn_find_bridge">Find new bridge</string>
+    <string name="txt_manual_ip_remote">Enter bridge IP</string>
+    <string name="btn_setup_away">Setup away from home</string>
+    <string name="not_available">This functionality is not available yet.</string>
+    <string name="txt_no_lights">No new lights found</string>
+     
+    <string name="search_progress">Searching ...</string>
+    <string name="connecting_progress">Connecting...</string>
+    <string name="sending_progress">Sending to Bridge...</string>
+    <string name="btn_retry">Retry</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_done">Done</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_send">Send</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_activate">Activate</string>
+    <string name="menu_read_cache">Read Cache</string>
+    <string name="title_lights">Available Lights</string>
+    <string name="txt_result">Result</string>
+    
+    <string name="enter_group_name">Enter group name</string>
+    <string name="txt_findnewlights">Find new lights</string>
+    <string name="txt_manual_search_info">1. Enter the serial No. of the light(s).\n2. Screw in the bulbs.\n3. Turn on the light.\n4. Start searching</string>
+    <string name="btn_add_light_serial">Add light serial</string>
+    <string name="popup_add_serial">Enter the six character serial</string>
+</resources>

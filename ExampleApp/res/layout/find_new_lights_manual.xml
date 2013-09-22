@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <TextView
+        android:id="@+id/txtFindLightsHeader"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:gravity="left"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:text="@string/txt_findnewlights"
+        android:textSize="14sp" />
+    
+    <View 
+        android:id="@+id/vDivider"
+        android:layout_height="2dp"
+        android:layout_width="fill_parent"
+        android:background="@color/configuration_screen_blue_divider"
+        android:layout_below="@id/txtFindLightsHeader" />
+    
+    <ImageView
+            android:id="@+id/image_search_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="80dp"
+            android:scaleType="fitCenter"
+            android:layout_below="@id/vDivider"
+            android:src="@drawable/addlightmanual" />
+
+    <TextView
+            android:id="@+id/txt_find_lamp_info"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="15dp"
+            android:layout_below="@id/vDivider"
+            android:text="@string/txt_manual_search_info"
+            android:textSize="14sp" />
+    
+	    <View 
+	        android:id="@+id/vDividerTop"
+	        android:layout_height="1dp"
+	        android:layout_width="fill_parent"
+	        android:background="?android:attr/listDivider"
+	        android:layout_below="@id/image_search_steps" />
+
+        <ListView
+            android:id="@+id/lampsidlist"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_below="@id/vDividerTop"
+            android:layout_above="@+id/vDividerBottom"
+            android:dividerHeight="1dp"
+            android:scrollbars="vertical" >
+
+        </ListView>
+        
+        <View 
+	        android:id="@+id/vDividerBottom"
+	        android:layout_height="1dp"
+	        android:layout_width="fill_parent"
+	        android:background="?android:attr/listDivider"
+	        android:layout_above="@+id/btn_add_light_serial" />
+
+        <Button
+            android:id="@+id/button_start_searching"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/btn_start_searching"
+            android:enabled="false" />
+
+        <Button
+            android:id="@+id/btn_add_light_serial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_above="@+id/button_start_searching"
+            android:text="@string/btn_add_light_serial"            
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp" />
+
+</RelativeLayout>

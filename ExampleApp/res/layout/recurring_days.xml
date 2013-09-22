@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tableRowRecurringDays"
+    android:layout_height="fill_parent"
+    android:layout_marginBottom="5dp"
+    android:layout_weight="10"
+    android:gravity="center_vertical">
+
+ <!--    <RadioButton
+        android:id="@+id/rbTimerRecurringDay"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="30"
+        android:gravity="center_vertical"
+        android:text="@string/txt_schedule_days"
+        android:textSize="20sp"
+        android:textStyle="bold" /> -->
+    <TextView  android:id="@+id/tvRecurringDay"
+		 android:layout_width="0px"
+         android:layout_height="wrap_content"
+         android:layout_weight="42"
+         android:gravity="center_vertical"
+         android:text="@string/txt_schedule_days"
+         android:textSize="20sp"
+         android:textStyle="bold"/>
+         
+
+    <LinearLayout
+        android:id="@+id/linearLayRecurringDays"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_weight="58"
+        android:gravity="center_vertical" >
+
+        <ToggleButton
+            android:id="@+id/btnSun"
+            style="@style/TabLikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOff="@string/txt_button_sun"
+            android:textOn="@string/txt_button_sun"
+            android:textStyle="bold" />
+
+        <ToggleButton
+            android:id="@+id/btnMon"
+            style="@style/TabLikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOff="@string/txt_button_mon"
+            android:textOn="@string/txt_button_mon"
+            android:textStyle="bold" />
+
+        <ToggleButton
+            android:id="@+id/btnTue"
+            style="@style/TabLikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOff="@string/txt_button_tue"
+            android:textOn="@string/txt_button_tue"
+            android:textStyle="bold" />
+
+        <ToggleButton
+            android:id="@+id/btnWed"
+            style="@style/TabLikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOff="@string/txt_button_wed"
+            android:textOn="@string/txt_button_wed"
+            android:textStyle="bold" />
+
+        <ToggleButton
+            android:id="@+id/btnThur"
+            style="@style/TabLikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOff="@string/txt_button_thu"
+            android:textOn="@string/txt_button_thu"
+            android:textStyle="bold" />
+
+        <ToggleButton
+            android:id="@+id/btnFri"
+            style="@style/TabLikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOff="@string/txt_button_fri"
+            android:textOn="@string/txt_button_fri"
+            android:textStyle="bold" />
+
+        <ToggleButton
+            android:id="@+id/btnSat"
+            style="@style/TabLikeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOff="@string/txt_button_sat"
+            android:textOn="@string/txt_button_sat"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</TableRow>

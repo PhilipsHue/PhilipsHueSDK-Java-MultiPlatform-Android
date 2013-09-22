@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="10dp" android:paddingRight="10dp">
+
+    <ListView
+        android:id="@+id/bridge_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" android:fadingEdge="none">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/bridge_list"
+        android:layout_below="@+id/bridge_list"
+        android:gravity="center_horizontal"
+        android:text="@string/txt_select_smartbridge"
+        android:textAppearance="?android:attr/textAppearanceSmall" android:layout_marginTop="15dp" android:textColor="#C0C0C0"/>
+
+    <Button
+        android:id="@+id/refresh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/btn_refresh" android:paddingLeft="10dp" android:paddingRight="10dp"/>
+
+</RelativeLayout>

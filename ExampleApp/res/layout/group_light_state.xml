@@ -1,0 +1,503 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+	  <TextView
+         android:id="@+id/tvGroup"
+         android:layout_width="fill_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="5dp"
+         android:layout_weight="20"
+         android:text="@string/txt_choose_group"
+         android:textSize="20sp"
+         android:textStyle="bold" />
+     <Spinner
+        android:id="@+id/groupSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_below="@id/tvGroup"
+     />
+    
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/groupSpinner"
+        android:fillViewport="true"
+        android:overScrollMode="never" >
+
+        <TableLayout
+            android:id="@+id/TableLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="110" >
+
+            <TableRow
+                android:layout_height="fill_parent"
+                android:layout_weight="10" >
+
+                <CheckBox
+                    android:id="@+id/checkBoxOnOFF"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="10" />
+
+                <TextView
+                    android:id="@+id/tvOnOFF"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="20"
+                    android:text="@string/txt_on_off"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" >
+
+                    <ToggleButton
+                        android:id="@+id/tbOnOff"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="fill_parent"
+                android:layout_weight="10" >
+
+                <CheckBox
+                    android:id="@+id/checkBoxHue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="10" />
+
+                <TextView
+                    android:id="@+id/tvHue"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="20"
+                    android:text="@string/txt_hue"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" >
+
+                    <SeekBar
+                        android:id="@+id/sbHue"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp" />
+
+                    <TextView
+                        android:id="@+id/tvsbHue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/sbHue"
+                        android:layout_marginRight="15dp"
+                        android:text="0" />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="fill_parent"
+                android:layout_weight="10" >
+
+                <CheckBox
+                    android:id="@+id/checkBoxSat"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="10" />
+
+                <TextView
+                    android:id="@+id/tvSat"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="20"
+                    android:text="@string/txt_sat"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" >
+
+                    <SeekBar
+                        android:id="@+id/sbSat"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp" />
+
+                    <TextView
+                        android:id="@+id/tvsbSat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/sbSat"
+                        android:layout_marginRight="15dp"
+                        android:text="0" />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="fill_parent"
+                android:layout_weight="10" >
+
+                <CheckBox
+                    android:id="@+id/checkBoxBri"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="10" />
+
+                <TextView
+                    android:id="@+id/tvBri"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="20"
+                    android:text="@string/txt_bri"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" >
+
+                    <SeekBar
+                        android:id="@+id/sbBri"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp" />
+
+                    <TextView
+                        android:id="@+id/tvsbBri"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/sbBri"
+                        android:layout_marginRight="15dp"
+                        android:text="0" />
+                </RelativeLayout>
+            </TableRow>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_height="fill_parent"
+                android:layout_weight="10" >
+
+                <CheckBox
+                    android:id="@+id/checkBoxXY"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="10" />
+
+                <LinearLayout
+                    android:id="@+id/lltv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="20"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tvX"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="20"
+                        android:text="@string/txt_x"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvY"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="20"
+                        android:text="@string/txt_y"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llX"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70"
+                    android:orientation="vertical" >
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" >
+
+                        <SeekBar
+                            android:id="@+id/sbX"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp" />
+
+                        <TextView
+                            android:id="@+id/tvsbX"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/sbX"
+                            android:layout_marginRight="15dp"
+                            android:text="0.0" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" >
+
+                        <SeekBar
+                            android:id="@+id/sbY"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp" />
+
+                        <TextView
+                            android:id="@+id/tvsbY"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_below="@id/sbY"
+                            android:layout_marginRight="15dp"
+                            android:text="0.0" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="fill_parent"
+                android:layout_weight="10"
+                android:gravity="center_horizontal" >
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="35dp"
+                    android:layout_column="1"
+                    android:layout_span="2"
+                    android:orientation="horizontal" >
+
+                    <View
+                        android:id="@+id/vRed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:background="#FF0000" 
+                      />
+
+                    <View
+                        android:id="@+id/vBlue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:background="#0000FF" />
+
+                    <View
+                        android:id="@+id/vGreen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:background="#00FF00" />
+
+                    <View
+                        android:id="@+id/vYellow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:background="#FFFF00" />
+
+                    <View
+                        android:id="@+id/vViolet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:background="#800080" />
+
+                    <View
+                        android:id="@+id/vOrange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
+                        android:background="#FFA500" />
+                </LinearLayout>
+            </TableRow>    
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_height="fill_parent"
+                android:layout_weight="10" >
+
+                <CheckBox
+                    android:id="@+id/checkBoxEffect"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="10" />
+
+                <TextView
+                    android:id="@+id/tvEffect"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="20"
+                    android:text="@string/txt_effect"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" >
+
+                     <ToggleButton
+                        android:id="@+id/btnNoneEffect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textOn="@string/txt_none"
+                        android:textOff="@string/txt_none"
+                        style="@style/TabLikeButton"
+                      />
+
+                    <ToggleButton
+                        android:id="@+id/btnColorLoop"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/btnNoneEffect"
+                        android:textOn="@string/txt_colorloop"
+                        android:textOff="@string/txt_colorloop"
+                        style="@style/TabLikeButton"
+                    />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="fill_parent"
+                android:layout_weight="10" >
+
+                <CheckBox
+                    android:id="@+id/checkBoxAlert"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="10" />
+
+                <TextView
+                    android:id="@+id/tvAlert"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="20"
+                    android:text="@string/txt_alert"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" >
+                   
+                    <ToggleButton
+                        android:id="@+id/btnNoneAlert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textOn="@string/txt_none"
+                        android:textOff="@string/txt_none"
+                        style="@style/TabLikeButton"
+                      />
+
+                    <ToggleButton
+                        android:id="@+id/btnSelectAlert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/btnNoneAlert"
+                        android:textOn="@string/txt_select"
+                        android:textOff="@string/txt_select"
+                        style="@style/TabLikeButton"/>
+
+                    <ToggleButton
+                        android:id="@+id/btnLSelectAlert"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/btnSelectAlert"
+                        android:textOn="@string/txt_lselect"
+                        android:textOff="@string/txt_lselect"
+                        style="@style/TabLikeButton"
+                     />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="fill_parent"
+                android:layout_weight="10" >
+
+                <CheckBox
+                    android:id="@+id/checkBoxTTime"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="10" />
+
+                <TextView
+                    android:id="@+id/tvTTime"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="20"
+                    android:text="@string/txt_t_time"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70" >
+
+                    <SeekBar
+                        android:id="@+id/sbTTime"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp" />
+
+                    <TextView
+                        android:id="@+id/tvsbTTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/sbTTime"
+                        android:layout_marginRight="15dp"
+                        android:text="0" />
+                </RelativeLayout>
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+</RelativeLayout>

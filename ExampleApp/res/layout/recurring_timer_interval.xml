@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tableRowRecurringInterval"
+    android:layout_height="fill_parent"
+    android:layout_marginBottom="5dp"
+    android:layout_weight="10"
+    android:gravity="center_vertical" >
+
+    <TextView
+        android:id="@+id/tvTimerRecurringInterval"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_weight="42"
+        android:gravity="center_vertical"
+        android:text="@string/txt_schedule_recurring_interval"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_weight="58"
+        android:gravity="center_vertical" >
+
+        <EditText
+            android:id="@+id/editTvTimerRecurringInterval"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/editborder"
+            android:gravity="center_vertical"
+            android:hint="@string/txt_schedule_recurring_interval_hint"
+            android:lines="2"
+            android:numeric="integer" />
+    </LinearLayout>
+
+</TableRow>
