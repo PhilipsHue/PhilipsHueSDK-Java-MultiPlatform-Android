@@ -53,6 +53,13 @@ For updates (e.g. change light state) use the Bridge directly. For example:
 
     PHBridge bridge = phHueSDK.getSelectedBridge();
 	bridge.updateLightState(light, lightState, listener);
+	
+To set lights to specific RGB Colours:
+
+    float xy[] = PHUtilities.calculateXYFromRGB(255, 0, 255, light.getModelNumber());
+    PHLightState lightState = new PHLightState();
+    lightState.setX(xy[0]);
+	lightState.setY(xy[1]);
      
 For more information see:
 
