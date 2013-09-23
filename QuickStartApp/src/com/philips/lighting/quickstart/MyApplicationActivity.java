@@ -28,7 +28,7 @@ public class MyApplicationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
         setContentView(R.layout.activity_main);
-        phHueSDK = PHHueSDK.create(getApplicationContext());
+		phHueSDK = PHHueSDK.getInstance(getApplicationContext());
         Button randomButton;
         randomButton = (Button) findViewById(R.id.buttonRand);
         randomButton.setOnClickListener(new OnClickListener() {

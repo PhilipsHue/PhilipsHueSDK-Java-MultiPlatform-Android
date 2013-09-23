@@ -60,6 +60,10 @@ To set lights to specific RGB Colours:
     PHLightState lightState = new PHLightState();
     lightState.setX(xy[0]);
 	lightState.setY(xy[1]);
+	
+To set all lights to the same state, easiest way is to use the default group.
+
+    bridge.setLightStateForDefaultGroup(lightState);
      
 For more information see:
 
