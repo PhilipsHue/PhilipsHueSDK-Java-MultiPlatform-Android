@@ -50,6 +50,8 @@ public class MyApplicationActivity extends Activity {
         for (PHLight light : allLights) {
             PHLightState lightState = new PHLightState();
             lightState.setHue(rand.nextInt(MAX_HUE));
+            // To validate your lightstate is valid (before sending to the bridge, you can use:  (a null validState indicates a valid value
+            // String validState = lightState.validateState();
             bridge.updateLightState(light, lightState, listener);
             //  bridge.updateLightState(light, lightState);   // If no bridge response is required then use this simpler form.
         }

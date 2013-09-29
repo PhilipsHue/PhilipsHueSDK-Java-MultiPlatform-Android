@@ -65,6 +65,11 @@ To set all lights to the same state, easiest way is to use the default group.
 
     bridge.setLightStateForDefaultGroup(lightState);
      
+To validate your lightstate object is valid (before sending to the bridge), you can use:
+
+    String validState = lightState.validateState();    // null means valid, otherwise the returned String contains the error message.
+	 
+	 
 For more information see:
 
 https://github.com/PhilipsHue/PhilipsHueSDKAndroid/blob/master/README.md	 
