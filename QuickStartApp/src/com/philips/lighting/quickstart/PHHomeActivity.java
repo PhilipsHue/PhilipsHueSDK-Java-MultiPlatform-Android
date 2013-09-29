@@ -52,6 +52,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
         
         // Make footer visible for Home Activity
         relLayoutVersion.setVisibility(View.VISIBLE);
+        tvVersion.setText(getString(R.string.txt_sdk_version) + phHueSDK.getSDKVersion());
         Log.w(TAG, "Listener Registered1.   Starting Search Manager.");
         // Register the PHSDKListener to receive callbacks from the bridge.
         phHueSDK.getNotificationManager().registerSDKListener(listener);
