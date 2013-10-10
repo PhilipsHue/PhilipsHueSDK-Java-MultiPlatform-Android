@@ -127,7 +127,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
         }
 
         @Override
-        public void onAccessPointsFound(ArrayList<PHAccessPoint> accessPoint) {
+        public void onAccessPointsFound(List<PHAccessPoint> accessPoint) {
             Log.w(TAG, "Access Points Found.");
             Activity act = phHueSDK.getCurrentActivty();
 

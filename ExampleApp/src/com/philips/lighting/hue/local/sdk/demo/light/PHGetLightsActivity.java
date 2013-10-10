@@ -49,8 +49,7 @@ public class PHGetLightsActivity extends Activity {
         // Get SDK wrapper
         PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
         PHBridge bridge = phHueSDK.getSelectedBridge();
-        lvLights.setAdapter(new LightListAdapter(bridge.getResourceCache()
-                .getAllLights()));
+        lvLights.setAdapter(new LightListAdapter(bridge.getResourceCache().getAllLights()));
         lvLights.setSelector(android.R.color.transparent);
     }
 
@@ -63,7 +62,7 @@ public class PHGetLightsActivity extends Activity {
         private List<PHLight> lights;
         private LayoutInflater mInflater;
 
-        public LightListAdapter(ArrayList<PHLight> lights) {
+        public LightListAdapter(List<PHLight> lights) {
             this.lights = lights;
             mInflater = LayoutInflater.from(PHGetLightsActivity.this);
         }

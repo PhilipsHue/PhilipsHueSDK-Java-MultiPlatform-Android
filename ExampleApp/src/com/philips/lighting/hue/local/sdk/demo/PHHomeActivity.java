@@ -3,6 +3,7 @@ package com.philips.lighting.hue.local.sdk.demo;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -402,7 +403,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
          *            the array list of {@link PHAccessPoint}
          */
         @Override
-        public void onAccessPointsFound(ArrayList<PHAccessPoint> accessPoint) {
+        public void onAccessPointsFound(List<PHAccessPoint> accessPoint) {
             Activity act = phHueSDK.getCurrentActivty();
             
             PHWizardAlertDialog.getInstance().closeProgressDialog();

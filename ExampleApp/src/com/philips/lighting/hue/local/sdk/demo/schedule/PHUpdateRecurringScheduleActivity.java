@@ -85,8 +85,8 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
     private static int recurringDays;
     private static String recurringDaysBitStr;
 
-    private ArrayList<PHLight> lights;
-    private ArrayList<PHGroup> groups;
+    private List<PHLight> lights;
+    private List<PHGroup> groups;
 
     /**
      * Called when the activity will start interacting with the user.
@@ -268,7 +268,7 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
                     case 0:
                         if (recurringDaysBitStr.charAt(0) == '1') {
 
-                            recurringDays = (recurringDays | RecurringDay.RecurringMonday
+                            recurringDays = (recurringDays | RecurringDay.RECURRING_MONDAY
                                     .getValue());
                             btnMon.setChecked(true);
                         }
@@ -276,42 +276,42 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
                         break;
                     case 1:
                         if (recurringDaysBitStr.charAt(1) == '1') {
-                            recurringDays = (recurringDays | RecurringDay.RecurringTuesday
+                            recurringDays = (recurringDays | RecurringDay.RECURRING_TUESDAY
                                     .getValue());
                             btnTue.setChecked(true);
                         }
                         break;
                     case 2:
                         if (recurringDaysBitStr.charAt(2) == '1') {
-                            recurringDays = (recurringDays | RecurringDay.RecurringWednesday
+                            recurringDays = (recurringDays | RecurringDay.RECURRING_WEDNESDAY
                                     .getValue());
                             btnWed.setChecked(true);
                         }
                         break;
                     case 3:
                         if (recurringDaysBitStr.charAt(3) == '1') {
-                            recurringDays = (recurringDays | RecurringDay.RecurringThursday
+                            recurringDays = (recurringDays | RecurringDay.RECURRING_THURSDAY
                                     .getValue());
                             btnThur.setChecked(true);
                         }
                         break;
                     case 4:
                         if (recurringDaysBitStr.charAt(4) == '1') {
-                            recurringDays = (recurringDays | RecurringDay.RecurringFriday
+                            recurringDays = (recurringDays | RecurringDay.RECURRING_FRIDAY
                                     .getValue());
                             btnFri.setChecked(true);
                         }
                         break;
                     case 5:
                         if (recurringDaysBitStr.charAt(5) == '1') {
-                            recurringDays = (recurringDays | RecurringDay.RecurringSaturday
+                            recurringDays = (recurringDays | RecurringDay.RECURRING_SATURDAY
                                     .getValue());
                             btnSat.setChecked(true);
                         }
                         break;
                     case 6:
                         if (recurringDaysBitStr.charAt(6) == '1') {
-                            recurringDays = (recurringDays | RecurringDay.RecurringSunday
+                            recurringDays = (recurringDays | RecurringDay.RECURRING_SUNDAY
                                     .getValue());
                             btnSun.setChecked(true);
                         }
@@ -529,7 +529,7 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
             @Override
             public void onStateUpdate(
                     Hashtable<String, String> successAttribute,
-                    ArrayList<PHHueError> errorAttribute) {
+                    List<PHHueError> errorAttribute) {
                 // TODO Auto-generated method stub
             }
 
@@ -556,7 +556,7 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
             case R.id.btnSun:
                 if (btnSun.isChecked()) {
 
-                    recurringDays = (recurringDays | RecurringDay.RecurringSunday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_SUNDAY
                             .getValue());
                 } else {
                     sb.setCharAt(6, '0');
@@ -566,7 +566,7 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnMon:
                 if (btnMon.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringMonday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_MONDAY
                             .getValue());
                 } else {
                     sb.setCharAt(0, '0');
@@ -576,7 +576,7 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnTue:
                 if (btnTue.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringTuesday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_TUESDAY
                             .getValue());
                 } else {
                     sb.setCharAt(1, '0');
@@ -586,7 +586,7 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnWed:
                 if (btnWed.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringWednesday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_WEDNESDAY
                             .getValue());
                 } else {
                     sb.setCharAt(2, '0');
@@ -596,7 +596,7 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnThur:
                 if (btnThur.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringThursday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_THURSDAY
                             .getValue());
                 } else {
                     sb.setCharAt(3, '0');
@@ -606,7 +606,7 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnFri:
                 if (btnFri.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringFriday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_FRIDAY
                             .getValue());
                 } else {
                     sb.setCharAt(4, '0');
@@ -616,7 +616,7 @@ public class PHUpdateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnSat:
                 if (btnSat.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringSaturday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_SATURDAY
                             .getValue());
                 } else {
                     sb.setCharAt(5, '0');

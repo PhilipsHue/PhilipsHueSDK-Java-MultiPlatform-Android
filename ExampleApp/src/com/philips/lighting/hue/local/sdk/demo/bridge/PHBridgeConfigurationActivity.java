@@ -2,6 +2,7 @@ package com.philips.lighting.hue.local.sdk.demo.bridge;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -206,7 +207,7 @@ public class PHBridgeConfigurationActivity extends Activity {
          */
         @Override
         public void onStateUpdate(Hashtable<String, String> successAttribute,
-                ArrayList<PHHueError> errorAttribute) {
+                List<PHHueError> errorAttribute) {
             Log.v(TAG, "onStateUpdate");
         }
 
@@ -549,7 +550,7 @@ public class PHBridgeConfigurationActivity extends Activity {
                     @Override
                     public void onStateUpdate(
                             Hashtable<String, String> successResponse,
-                            ArrayList<PHHueError> errorResponse) {
+                            List<PHHueError> errorResponse) {
 
                         StringBuffer sb = new StringBuffer();
                         sb.append("Success :  ");

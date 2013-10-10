@@ -2,6 +2,7 @@ package com.philips.lighting.hue.local.sdk.demo.group;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,7 +31,7 @@ public class PHDeleteGroupActivity extends Activity {
 
     private ListView deleteGroupListView;
     private PHBridge bridge;
-    private ArrayList<PHGroup> groups;
+    private List<PHGroup> groups;
 
     /**
      * Called when the activity is first created.
@@ -130,7 +131,7 @@ public class PHDeleteGroupActivity extends Activity {
 
             @Override
             public void onStateUpdate(Hashtable<String, String> arg0,
-                    ArrayList<PHHueError> arg1) {
+                    List<PHHueError> arg1) {
                 // TODO Auto-generated method stub
 
             }

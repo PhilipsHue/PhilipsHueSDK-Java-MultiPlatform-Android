@@ -80,7 +80,7 @@ public class PHRenameLightListActivity extends Activity implements
          * @param lights
          *            the array list of {@link PHLight}
          */
-        public LightListAdapter(ArrayList<PHLight> lights) {
+        public LightListAdapter(List<PHLight> lights) {
             this.lights = lights;
             mInflater = LayoutInflater.from(PHRenameLightListActivity.this);
         }
@@ -234,7 +234,7 @@ public class PHRenameLightListActivity extends Activity implements
                                             @Override
                                             public void onStateUpdate(
                                                     Hashtable<String, String> successAttribute,
-                                                    ArrayList<PHHueError> errorAttribute) {
+                                                    List<PHHueError> errorAttribute) {
                                                 // TODO Auto-generated method
                                                 // stub
 

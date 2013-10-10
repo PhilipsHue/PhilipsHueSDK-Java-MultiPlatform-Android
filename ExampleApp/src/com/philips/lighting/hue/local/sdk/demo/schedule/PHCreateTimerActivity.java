@@ -2,6 +2,7 @@ package com.philips.lighting.hue.local.sdk.demo.schedule;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
@@ -59,8 +60,8 @@ public class PHCreateTimerActivity extends Activity {
     private int mMinute;
     private PHLightState stateToSend;
 
-    private ArrayList<PHLight> lights;
-    private ArrayList<PHGroup> groups;
+    private List<PHLight> lights;
+    private List<PHGroup> groups;
 
 
     /**
@@ -339,7 +340,7 @@ public class PHCreateTimerActivity extends Activity {
 
             @Override
             public void onStateUpdate(Hashtable<String, String> arg0,
-                    ArrayList<PHHueError> arg1) {
+                    List<PHHueError> arg1) {
                 // TODO Auto-generated method stub
 
             }

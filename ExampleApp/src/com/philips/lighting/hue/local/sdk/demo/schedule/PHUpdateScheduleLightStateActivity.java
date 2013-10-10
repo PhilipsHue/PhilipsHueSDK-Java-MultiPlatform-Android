@@ -543,7 +543,7 @@ public class PHUpdateScheduleLightStateActivity extends Activity {
                     @Override
                     public void onStateUpdate(
                             Hashtable<String, String> successResponse,
-                            ArrayList<PHHueError> errorResponse) {
+                            List<PHHueError> errorResponse) {
                         dialogManager.closeProgressDialog();
                         StringBuffer sb = new StringBuffer();
                         sb.append("Success :  ");

@@ -133,7 +133,7 @@ public class PHFindNewLightsActivity extends Activity {
          */
         @Override
         public void onStateUpdate(Hashtable<String, String> successAttribute,
-                ArrayList<PHHueError> errorAttribute) {
+                List<PHHueError> errorAttribute) {
             // TODO Auto-generated method stub
 
         }
@@ -153,7 +153,7 @@ public class PHFindNewLightsActivity extends Activity {
          * 
          */
         @Override
-        public void onReceivingLights(ArrayList<PHBridgeResource> lightHeaders) {
+        public void onReceivingLights(List<PHBridgeResource> lightHeaders) {
 
             if (lightHeaders != null && lightHeaders.size() > 0) {
                 LampListAdapter adapter = new LampListAdapter(
@@ -200,7 +200,7 @@ public class PHFindNewLightsActivity extends Activity {
          *            the array list of {@link PHBridgeResource}
          */
         public LampListAdapter(Context context,
-                ArrayList<PHBridgeResource> lamps) {
+               List<PHBridgeResource> lamps) {
             // Cache the LayoutInflate to avoid asking for a new one each time.
 
             mInflater = LayoutInflater.from(context);

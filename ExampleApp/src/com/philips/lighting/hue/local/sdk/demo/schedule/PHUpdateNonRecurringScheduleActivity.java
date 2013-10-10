@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
@@ -46,7 +47,7 @@ import com.philips.lighting.model.PHSchedule;
 public class PHUpdateNonRecurringScheduleActivity extends Activity {
     private static final String TAG = "PHUpdateNonRecurringScheduleActivity";
     private Spinner scheduleSpinner;
-    private ArrayList<PHSchedule> nonRecurringSchedules;
+    private List<PHSchedule> nonRecurringSchedules;
 
 
     private PHHueSDK phHueSDK;
@@ -68,8 +69,8 @@ public class PHUpdateNonRecurringScheduleActivity extends Activity {
     private static Date timeToSend;
     private PHLightState stateToSend;
 
-    private ArrayList<PHLight> lights;
-    private ArrayList<PHGroup> groups;
+    private List<PHLight> lights;
+    private List<PHGroup> groups;
 
 
     /**
@@ -417,7 +418,7 @@ public class PHUpdateNonRecurringScheduleActivity extends Activity {
             @Override
             public void onStateUpdate(
                     Hashtable<String, String> successAttribute,
-                    ArrayList<PHHueError> errorAttribute) {
+                    List<PHHueError> errorAttribute) {
                 // TODO Auto-generated method stub
             }
 

@@ -63,8 +63,8 @@ public class PHUpdateTimerActivity extends Activity {
     private int mMinute;
     private PHLightState stateToSend;
 
-    private ArrayList<PHLight> lights;
-    private ArrayList<PHGroup> groups;
+    private List<PHLight> lights;
+    private List<PHGroup> groups;
 
 
     /**
@@ -392,7 +392,7 @@ public class PHUpdateTimerActivity extends Activity {
             @Override
             public void onStateUpdate(
                     Hashtable<String, String> successAttribute,
-                    ArrayList<PHHueError> errorAttribute) {
+                    List<PHHueError> errorAttribute) {
                 // TODO Auto-generated method stub
             }
 

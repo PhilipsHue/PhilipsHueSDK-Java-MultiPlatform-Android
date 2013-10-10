@@ -2,6 +2,7 @@ package com.philips.lighting.hue.local.sdk.demo.group;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -42,7 +43,7 @@ import com.philips.lighting.model.PHLightState;
  * @author Manmath R
  */
 public class PHSetLightStateForGroupActivity extends Activity {
-    private ArrayList<PHGroup> groups;
+    private List<PHGroup> groups;
     private boolean[] selectedValues = new boolean[8];
     private ToggleButton tbOnOff;
     private Spinner groupSpinner;
@@ -429,7 +430,7 @@ public class PHSetLightStateForGroupActivity extends Activity {
                     @Override
                     public void onStateUpdate(
                             Hashtable<String, String> successResponse,
-                            ArrayList<PHHueError> errorResponse) {
+                            List<PHHueError> errorResponse) {
                         dialogManager.closeProgressDialog();
                         StringBuffer sb = new StringBuffer();
                         sb.append("Success :  ");

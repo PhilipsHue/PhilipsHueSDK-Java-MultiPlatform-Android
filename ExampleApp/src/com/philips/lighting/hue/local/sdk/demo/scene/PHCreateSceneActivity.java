@@ -169,7 +169,7 @@ public class PHCreateSceneActivity extends Activity {
 
             @Override
             public void onStateUpdate(Hashtable<String, String> arg0,
-                    ArrayList<PHHueError> arg1) {
+                    List<PHHueError> arg1) {
                 dialogManager.closeProgressDialog();
                 PHWizardAlertDialog.showResultDialog(
                         PHCreateSceneActivity.this,
@@ -186,7 +186,7 @@ public class PHCreateSceneActivity extends Activity {
             }
 
             @Override
-            public void onScenesReceived(ArrayList<PHScene> arg0) {
+            public void onScenesReceived(List<PHScene> arg0) {
                 // TODO Auto-generated method stub
 
             }

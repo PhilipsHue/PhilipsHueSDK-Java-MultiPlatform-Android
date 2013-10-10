@@ -2,6 +2,7 @@ package com.philips.lighting.quickstart;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Random;
 
 import android.app.Activity;
@@ -44,7 +45,7 @@ public class MyApplicationActivity extends Activity {
 
     public void randomLights() {
         PHBridge bridge = phHueSDK.getSelectedBridge();
-        ArrayList<PHLight> allLights = bridge.getResourceCache().getAllLights();
+        List<PHLight> allLights = bridge.getResourceCache().getAllLights();
         Random rand = new Random();
         
         for (PHLight light : allLights) {
@@ -64,7 +65,7 @@ public class MyApplicationActivity extends Activity {
         }
         
         @Override
-        public void onStateUpdate(Hashtable<String, String> arg0, ArrayList<PHHueError> arg1) {
+        public void onStateUpdate(Hashtable<String, String> arg0, List<PHHueError> arg1) {
            Log.w(TAG, "Light has updated");
         }
         

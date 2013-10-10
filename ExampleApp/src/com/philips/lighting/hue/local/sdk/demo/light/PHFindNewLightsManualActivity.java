@@ -2,6 +2,7 @@ package com.philips.lighting.hue.local.sdk.demo.light;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -130,7 +131,7 @@ public class PHFindNewLightsManualActivity extends Activity {
 
             @Override
             public void onStateUpdate(Hashtable<String, String> arg0,
-                    ArrayList<PHHueError> arg1) {
+                    List<PHHueError> arg1) {
                 // TODO Auto-generated method stub
 
             }
@@ -145,7 +146,7 @@ public class PHFindNewLightsManualActivity extends Activity {
 
             @Override
             public void onReceivingLights(
-                    ArrayList<PHBridgeResource> lightHeaders) {
+                   List<PHBridgeResource> lightHeaders) {
 
                 if (lightHeaders != null && lightHeaders.size() > 0 && !tempLightHeaders.containsAll(lightHeaders)) {
                         tempLightHeaders.addAll(lightHeaders);

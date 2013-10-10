@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
@@ -78,8 +79,8 @@ public class PHCreateRecurringScheduleActivity extends Activity {
     private static Date timeToSend;
     private PHLightState stateToSend;
 
-    private ArrayList<PHLight> lights;
-    private ArrayList<PHGroup> groups;
+    private List<PHLight> lights;
+    private List<PHGroup> groups;
 
     private int recurringDays;
 
@@ -251,7 +252,7 @@ public class PHCreateRecurringScheduleActivity extends Activity {
             switch (v.getId()) {
             case R.id.btnSun:
                 if (btnSun.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringSunday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_SUNDAY
                             .getValue());
                 } else {
                     sb.setCharAt(6, '0');
@@ -261,7 +262,7 @@ public class PHCreateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnMon:
                 if (btnMon.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringMonday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_MONDAY
                             .getValue());
                 } else {
                     sb.setCharAt(0, '0');
@@ -271,7 +272,7 @@ public class PHCreateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnTue:
                 if (btnTue.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringTuesday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_TUESDAY
                             .getValue());
                 } else {
                     sb.setCharAt(1, '0');
@@ -281,7 +282,7 @@ public class PHCreateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnWed:
                 if (btnWed.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringWednesday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_WEDNESDAY
                             .getValue());
                 } else {
                     sb.setCharAt(2, '0');
@@ -291,7 +292,7 @@ public class PHCreateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnThur:
                 if (btnThur.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringThursday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_THURSDAY
                             .getValue());
                 } else {
                     sb.setCharAt(3, '0');
@@ -301,7 +302,7 @@ public class PHCreateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnFri:
                 if (btnFri.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringFriday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_FRIDAY
                             .getValue());
                 } else {
                     sb.setCharAt(4, '0');
@@ -311,7 +312,7 @@ public class PHCreateRecurringScheduleActivity extends Activity {
                 break;
             case R.id.btnSat:
                 if (btnSat.isChecked()) {
-                    recurringDays = (recurringDays | RecurringDay.RecurringSaturday
+                    recurringDays = (recurringDays | RecurringDay.RECURRING_SATURDAY
                             .getValue());
                 } else {
                     sb.setCharAt(5, '0');
@@ -490,7 +491,7 @@ public class PHCreateRecurringScheduleActivity extends Activity {
 
             @Override
             public void onStateUpdate(Hashtable<String, String> arg0,
-                    ArrayList<PHHueError> arg1) {
+                   List<PHHueError> arg1) {
                 // TODO Auto-generated method stub
 
             }

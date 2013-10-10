@@ -61,7 +61,7 @@ public class PHGetGroupsActivity extends Activity {
         dialogManager.showProgressDialog(R.string.sending_progress,
                 PHGetGroupsActivity.this);
         // call for getting groups from bridge
-        ArrayList<PHGroup> groups = bridge.getResourceCache().getAllGroups();
+        List<PHGroup> groups = bridge.getResourceCache().getAllGroups();
 
         dialogManager.closeProgressDialog();
         lvGroups.setAdapter(new GroupListAdapter(groups));
@@ -104,7 +104,7 @@ public class PHGetGroupsActivity extends Activity {
          * @param groupHeaders
          *            the array list of {@link PHBridgeResource}
          */
-        public GroupListAdapter(ArrayList<PHGroup> groupHeaders) {
+        public GroupListAdapter(List<PHGroup> groupHeaders) {
             this.groupHeaders = groupHeaders;
             mInflater = LayoutInflater.from(PHGetGroupsActivity.this);
         }

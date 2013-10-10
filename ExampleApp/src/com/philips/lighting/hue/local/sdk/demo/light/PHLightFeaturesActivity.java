@@ -1,6 +1,6 @@
 package com.philips.lighting.hue.local.sdk.demo.light;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -70,8 +70,7 @@ public class PHLightFeaturesActivity extends Activity implements
     public void onItemClick(AdapterView<?> arg0, View arg1, int index, long arg3) {
         Intent intent = null;
         PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
-        ArrayList<PHLight> lights = phHueSDK.getSelectedBridge()
-                .getResourceCache().getAllLights();
+       List<PHLight> lights = phHueSDK.getSelectedBridge().getResourceCache().getAllLights();
         switch (index) {
         case 0:
             if (lights.size() == 0) {

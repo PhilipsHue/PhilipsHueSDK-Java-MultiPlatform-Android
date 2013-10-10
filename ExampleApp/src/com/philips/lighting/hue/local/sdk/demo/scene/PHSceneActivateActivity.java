@@ -2,6 +2,7 @@ package com.philips.lighting.hue.local.sdk.demo.scene;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,7 +31,7 @@ public class PHSceneActivateActivity extends Activity {
 
     private ListView listView;
     private PHBridge bridge;
-    private ArrayList<PHScene> scenes;
+    private List<PHScene> scenes;
 
     /**
      * Called when the activity is first created.
@@ -127,7 +128,7 @@ public class PHSceneActivateActivity extends Activity {
 
             @Override
             public void onStateUpdate(Hashtable<String, String> arg0,
-                    ArrayList<PHHueError> arg1) {
+                    List<PHHueError> arg1) {
                 // TODO Auto-generated method stub
 
             }
@@ -141,7 +142,7 @@ public class PHSceneActivateActivity extends Activity {
             }
 
             @Override
-            public void onScenesReceived(ArrayList<PHScene> arg0) {
+            public void onScenesReceived(List<PHScene> arg0) {
                 // TODO Auto-generated method stub
 
             }

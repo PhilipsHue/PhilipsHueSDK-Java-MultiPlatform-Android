@@ -136,7 +136,7 @@ public class PHRemoveTimerActivity extends Activity {
 
             @Override
             public void onStateUpdate(Hashtable<String, String> arg0,
-                    ArrayList<PHHueError> arg1) {
+                   List<PHHueError> arg1) {
                 // TODO Auto-generated method stub
 
             }

@@ -1,6 +1,6 @@
 package com.philips.lighting.hue.local.sdk.demo.scene;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -90,8 +90,8 @@ public class PHSceneFeaturesActivity extends Activity implements
         PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
         PHBridgeResourcesCache cache = phHueSDK.getSelectedBridge()
                 .getResourceCache();
-        ArrayList<PHLight> lights = cache.getAllLights();
-        ArrayList<PHScene> scenes = cache.getAllScenes();
+        List<PHLight> lights = cache.getAllLights();
+        List<PHScene> scenes = cache.getAllScenes();
         Intent intent = null;
         switch (index) {
         case 0:

@@ -68,7 +68,7 @@ public class PHGetScenesActivity extends Activity {
             @Override
             public void onStateUpdate(
                     Hashtable<String, String> successAttribute,
-                    ArrayList<PHHueError> errorAttribute) {
+                    List<PHHueError> errorAttribute) {
                 // TODO Auto-generated method stub
 
             }
@@ -81,7 +81,7 @@ public class PHGetScenesActivity extends Activity {
             }
 
             @Override
-            public void onScenesReceived(ArrayList<PHScene> sceneList) {
+            public void onScenesReceived(List<PHScene> sceneList) {
                 super.onScenesReceived(sceneList);
                 dialogManager.closeProgressDialog();
                 listView.setAdapter(new ScenesListAdapter(sceneList));
@@ -127,7 +127,7 @@ public class PHGetScenesActivity extends Activity {
          * @param groupHeaders
          *            the array list of {@link PHScene}
          */
-        public ScenesListAdapter(ArrayList<PHScene> scenes) {
+        public ScenesListAdapter(List<PHScene> scenes) {
             this.scenes = scenes;
             mInflater = LayoutInflater.from(PHGetScenesActivity.this);
         }

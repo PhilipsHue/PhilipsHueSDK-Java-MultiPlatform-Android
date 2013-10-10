@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.TimePickerDialog;
@@ -62,8 +63,8 @@ public class PHCreateNonRecurringScheduleActivity extends Activity {
     private static Date timeToSend;
     private PHLightState stateToSend;
 
-    private ArrayList<PHLight> lights;
-    private ArrayList<PHGroup> groups;
+    private List<PHLight> lights;
+    private List<PHGroup> groups;
 
     /**
      * Called when the activity will start interacting with the user.
@@ -368,7 +369,7 @@ public class PHCreateNonRecurringScheduleActivity extends Activity {
             @Override
             public void onStateUpdate(
                     Hashtable<String, String> successAttribute,
-                    ArrayList<PHHueError> errorAttribute) {
+                    List<PHHueError> errorAttribute) {
                 // TODO Auto-generated method stub
             }
 

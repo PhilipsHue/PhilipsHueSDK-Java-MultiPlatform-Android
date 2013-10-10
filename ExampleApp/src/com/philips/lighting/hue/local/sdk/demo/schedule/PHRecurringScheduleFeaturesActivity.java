@@ -1,6 +1,6 @@
 package com.philips.lighting.hue.local.sdk.demo.schedule;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -69,8 +69,8 @@ public class PHRecurringScheduleFeaturesActivity extends Activity implements
         PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
         PHBridgeResourcesCache cache = phHueSDK.getSelectedBridge()
                 .getResourceCache();
-        ArrayList<PHSchedule> recurringSchedules = cache.getAllSchedules(true);
-        ArrayList<PHLight> lights = cache.getAllLights();
+        List<PHSchedule> recurringSchedules = cache.getAllSchedules(true);
+        List<PHLight> lights = cache.getAllLights();
 
         Intent intent = null;
         switch (position) {

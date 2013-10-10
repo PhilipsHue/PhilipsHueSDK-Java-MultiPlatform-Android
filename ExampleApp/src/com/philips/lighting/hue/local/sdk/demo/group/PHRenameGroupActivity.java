@@ -2,6 +2,7 @@ package com.philips.lighting.hue.local.sdk.demo.group;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -71,7 +72,7 @@ public class PHRenameGroupActivity extends Activity implements
      * 
      */
     class GroupListAdapter extends BaseAdapter {
-        private ArrayList<PHGroup> groups;
+        private List<PHGroup> groups;
         private LayoutInflater mInflater;
 
         /**
@@ -80,7 +81,7 @@ public class PHRenameGroupActivity extends Activity implements
          * @param groups
          *            the array list of {@link PHGroup}
          */
-        public GroupListAdapter(ArrayList<PHGroup> groups) {
+        public GroupListAdapter(List<PHGroup> groups) {
             this.groups = groups;
             mInflater = LayoutInflater.from(PHRenameGroupActivity.this);
         }
@@ -234,7 +235,7 @@ public class PHRenameGroupActivity extends Activity implements
                                             @Override
                                             public void onStateUpdate(
                                                     Hashtable<String, String> successAttribute,
-                                                    ArrayList<PHHueError> errorAttribute) {
+                                                    List<PHHueError> errorAttribute) {
                                                 // TODO Auto-generated method
                                                 // stub
 

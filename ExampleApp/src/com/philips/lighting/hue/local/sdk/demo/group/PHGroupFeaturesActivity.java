@@ -1,6 +1,6 @@
 package com.philips.lighting.hue.local.sdk.demo.group;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -86,8 +86,8 @@ public class PHGroupFeaturesActivity extends Activity implements
         PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
         PHBridgeResourcesCache cache = phHueSDK.getSelectedBridge()
                 .getResourceCache();
-        ArrayList<PHGroup> groups = cache.getAllGroups();
-        ArrayList<PHLight> lights = cache.getAllLights();
+        List<PHGroup> groups = cache.getAllGroups();
+        List<PHLight> lights = cache.getAllLights();
         Intent intent = null;
         switch (index) {
         case 0:
