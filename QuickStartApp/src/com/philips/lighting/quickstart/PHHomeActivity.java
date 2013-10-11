@@ -133,6 +133,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
 
             PHWizardAlertDialog.getInstance().closeProgressDialog();
             if (accessPoint != null && accessPoint.size() > 0) {
+                phHueSDK.getAccessPointsFound().clear();
                 phHueSDK.getAccessPointsFound().addAll(accessPoint);
                 // show list of bridges
                 if (act instanceof PHAccessPointListActivity) {
