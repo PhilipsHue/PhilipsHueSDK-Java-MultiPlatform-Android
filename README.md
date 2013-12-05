@@ -3,13 +3,14 @@ The Hue SDK by Philips
  (c) Copyright Philips 2012-2013
 Introduction
 ----------------
-The Android Hue SDK is a set of tools that are designed to make it easy to access the Hue system through the Hue Wi-Fi network connected bridge and control an associated set of connected lamps. The aim of the SDK is to enable you to create your own applications for the Hue system.
+The Java/Android Hue SDK is a set of tools that are designed to make it easy to access the Hue system through the Hue Wi-Fi network connected bridge and control an associated set of connected lamps. The aim of the SDK is to enable you to create your own applications for the Hue system.
 The tools are provided with documentation for the SDK and example code. They are designed to be flexible, whilst easing the use of the more complex components of the system.
 
 The Hue SDK Components
 -------------------------------------
 ###The SDK API
-The SDK library is the main API of the Hue SDK. It contains all of the main tools to access the Hue system
+The SDK libraries (huelocalsdk.jar and sdkresources.jar) are the main API libraries for using the Hue SDK. They contain all of the main tools to access the Hue system.  
+<b>Note</b> that as of v1.1.1 they are platform independent so they can be used on Android or Java Desktop systems alike.
 ###The Wizards
 The Wizards are user interface components that are provided as source and access the Hue SDK to operate. They are provided to cover functionality such as configuration that is best given as source. Providing the source and graphics resources grants you the option to change the look and feel to match your own application's design.
 
@@ -17,11 +18,13 @@ The Wizards are user interface components that are provided as source and access
 Documentation is provided in documents such as this, other media, and code comments. 
 
 ###The Sample Apps
-2 Sample Apps are provided to show the usage of the Hue SDK.
+3 Sample Apps are provided to show the usage of the Hue SDK.
 
-* QuickStart Sample App - This is a skeleton/bare bones app with the minimal functionality needed to connect to a bridge (with authentication/pushlink) including some basic code to update lights.
+* QuickStart Sample App - This is a skeleton/bare bones app with the minimal functionality needed to connect to a bridge (with authentication/pushlink) including some basic code to update lights. Ideal starting point for a developer wanting to write their own Hue app.
 
 * Example App - A more complete app showing a lot more Hue functionality such as timers, groups, find new lights and gui components for controlling Hue.
+
+* Java Desktop App - A Java Desktop Application written in Swing showing how to connect to your Hue Lights.
 
 How to structure your app for the Hue SDK
 ---------------------------------------------------------
@@ -31,9 +34,9 @@ The hardware bridge that you connect to your Wi-Fi network controls the connecte
 ###The SDK connects to a bridge
 To operate, the SDK must connect to a bridge
 ###Find a bridge
-The SDK has functionality to find local bridges and the Example App contains a Wizard UI component for the user to select the bridge to use
+The SDK has functionality to find local bridges and the provided Apps contain Wizard UI components for the user to select the bridge to use
 ###Push Linking
-The button on the bridge itself must be pressed to connect to the SDK.  The SDK provides the code and Example App Wizard UI component for this.
+The button on the bridge itself must be pressed to connect to the SDK.  The SDK provides the code and App Wizard UI components for this.
 ###Find the lights
 The bridge should be instructed to find any unallocated lights in the locality. It will search using Zigbee to find them
 ###Identifiers for lights
@@ -97,9 +100,10 @@ The below code covers the implementation only.  For a more complete set of UI co
 
 ###AndroidManifest.xml
     
-Add Internet permission and any activities your app requires.
+Add Internet and Get Tasks permission and any activities your app requires.
 	
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
 	<activity
        android:name="com.xxxx.xxx.MyApplicationActivity"
@@ -120,10 +124,27 @@ Add Internet permission and any activities your app requires.
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    // Create the HueSDK singleton
-	    phHueSDK = PHHueSDK.create(getApplicationContext());
+	    phHueSDK = PHHueSDK.create();
+	    
+	    // Set the Device Name (name of your app). This will be stored in your bridge whitelist entry.
+        phHueSDK.setDeviceName("QuickStartApp");
 		
 		// Register the PHHueListener to receive callback notifications on Bridge events.
 		phHueSDK.getNotificationManager().registerSDKListener(listener);
+		
+		// Try to automatically connect to the last known bridge.
+        prefs = HueSharedPreferences.getInstance(getApplicationContext());
+        String lastIpAddress   = prefs.getLastConnectedIPAddress();
+        String lastUsername    = prefs.getUsername();
+
+        // Automatically try and to connect to the last connected IP Address.  For multiple bridge support a different implementation is required.
+        if (lastIpAddress !=null) {
+            PHWizardAlertDialog.getInstance().showProgressDialog(R.string.connecting, PHHomeActivity.this);
+            PHAccessPoint lastAccessPoint = new PHAccessPoint();
+            lastAccessPoint.setIpAddress(lastIpAddress);
+            lastAccessPoint.setUsername(lastUsername);
+            phHueSDK.connect(lastAccessPoint);
+        }
 
 	}
 	
@@ -148,91 +169,60 @@ Add Internet permission and any activities your app requires.
 		public void onCacheUpdated(int flags, PHBridge bridge) {
 		}
 
-		@Override
-		public void onBridgeConnected(PHBridge bridge) {
-			phHueSDK.getLastHeartbeat().put(b.readResourceCache().getBridgeConfiguration().getIpAddress(),System.currentTimeMillis());
-			
-			// Set the selected Bridge
-			phHueSDK.setSelectedBridge(bridge);
-			// Start your own Activity and have fun with Philips Hue.
-		    Intent intent = new Intent(getApplicationContext(),MyApplicationActivity.class);
-			startActivity(intent);
-		}
+        @Override
+        public void onBridgeConnected(PHBridge b) {
+            phHueSDK.setSelectedBridge(b);
+            phHueSDK.enableHeartbeat(b, PHHueSDK.HB_INTERVAL);
+            phHueSDK.getLastHeartbeat().put(b.getResourceCache().getBridgeConfiguration() .getIpAddress(), System.currentTimeMillis());
+            prefs.setLastConnectedIPAddress(b.getResourceCache().getBridgeConfiguration().getIpAddress());
+            prefs.setUsername(prefs.getUsername());
+            PHWizardAlertDialog.getInstance().closeProgressDialog();
+            startMainActivity();
+        }
 
-		@Override
-		public void onAuthenticationRequired(PHAccessPoint accessPoint) {
-			Log.w(TAG, "Authentication Required: ");			
-			
-			Activity act = phHueSDK.getCurrentActivty();
-			PHWizardAlertDialog.getInstance().closeProgressDialog();
-			
-			// As username is not Authenticated we display the PushLink Image instructing user to push the Bridge Button.
-			act.startActivity(new Intent(act,PHPushlinkActivity.class));
-			phHueSDK.startPushlinkAuthentication(accessPoint);
-			if(act instanceof PHAccessPointListActivity){
-				act.finish(); // it  finishes bridge list 
-			}		
-		}
+        @Override
+        public void onAuthenticationRequired(PHAccessPoint accessPoint) {
+            Log.w(TAG, "Authentication Required.");
+            
+            phHueSDK.startPushlinkAuthentication(accessPoint);
+            startActivity(new Intent(PHHomeActivity.this, PHPushlinkActivity.class));
+           
+        }
 
-		@Override
-		public void onAccessPointsFound(ArrayList<PHAccessPoint> accessPoints) {			
-		
-			Activity act = phHueSDK.getCurrentActivty();
-			
-			PHWizardAlertDialog.getInstance().closeProgressDialog();
-			if(accessPoint!=null && accessPoint.size()>0){
-				phHueSDK.getAccessPointsFound().addAll(accessPoint);
+        @Override
+        public void onAccessPointsFound(List<PHAccessPoint> accessPoint) {
+            Log.w(TAG, "Access Points Found.");
 
-				// show list of bridges
-				if(act instanceof PHAccessPointListActivity) {
-					((PHAccessPointListActivity) act).refreshList();
-				}else{
-					act.startActivity(new Intent(act,PHAccessPointListActivity.class));
-				}
+            PHWizardAlertDialog.getInstance().closeProgressDialog();
+            if (accessPoint != null && accessPoint.size() > 0) {
+                phHueSDK.getAccessPointsFound().clear();
+                phHueSDK.getAccessPointsFound().addAll(accessPoint);
+                startActivity(new Intent(getApplicationContext(),PHAccessPointListActivity.class));
+            } 
+            
+        }
 
-			}else{
-				//show error dialog
-				PHWizardAlertDialog.showErrorDialog(act, phHueSDK.getApplicationContext().getString(R.string.could_not_find_bridge), R.string.btn_retry);
-			}
+        @Override
+        public void onError(int code, final String message) {
+            Log.e(TAG, "on Error Called : " + code + ":" + message);
 
-		@Override
-		public void onError(int code, String message) {
-			Activity act = phHueSDK.getCurrentActivty();
-			
-			if(code==PHMessageType.BRIDGE_NOT_FOUND){
-				PHWizardAlertDialog.getInstance().closeProgressDialog();
-				PHWizardAlertDialog.showErrorDialog(act, message, R.string.btn_ok);
-			} else if(code==PHMessageType.PUSHLINK_BUTTON_NOT_PRESSED){
-				if(act!=null && (act instanceof PHPushlinkActivity)){
-					((PHPushlinkActivity) act).incrementProgress();
-				}
-			} else if(code==PHMessageType.PUSHLINK_AUTHENTICATION_FAILED){
-				if(act!=null && (act instanceof PHPushlinkActivity)){
-					((PHPushlinkActivity) act).incrementProgress();
-				}
-				PHWizardAlertDialog.showAuthenticationErrorDialog(act, message,  R.string.btn_ok);
+            if (code == PHHueError.NO_CONNECTION) {
+                Log.w(TAG, "On No Connection");
+            } else if (code == PHHueError.AUTHENTICATION_FAILED) {  
+                PHWizardAlertDialog.getInstance().closeProgressDialog();
+            } else if (code == PHHueError.BRIDGE_NOT_RESPONDING) {
+                Log.w("QuickStart", "Bridge Not Responding . . . ");
+                PHWizardAlertDialog.getInstance().closeProgressDialog();
+                PHHomeActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isCurrentActivity()) { PHWizardAlertDialog.showErrorDialog(PHHomeActivity.this, message, R.string.btn_ok); }
+                    }
+                }); 
 
-			} else if(code==PHHueError.BRIDGE_NOT_RESPONDING){
-				PHWizardAlertDialog.getInstance().closeProgressDialog();
-				PHWizardAlertDialog.showErrorDialog(act, message, R.string.btn_ok);
+            } 
+        }
 
-			} else if(code==PHHueError.NO_CONNECTION){ // connection lost to the bridge
-
-			} else if(code ==PHHueError.AUTHENTICATION_FAILED){
-				PHWizardAlertDialog.getInstance().closeProgressDialog();
-
-				if(act!=null && act instanceof MainActivity){
-					PHWizardAlertDialog.showErrorDialog(act, message, R.string.btn_ok);
-					((MainActivity) act).refresh();					
-				}else{
-					goBackToHome();
-				}
-			} else{
-				// For any other error
-				PHWizardAlertDialog.getInstance().closeProgressDialog();
-				Toast.makeText(phHueSDK.getApplicationContext(), message, Toast.LENGTH_LONG).show();
-			}
-		}
 
 		@Override
 		public void onConnectionResumed(PHBridge bridge) {	
@@ -259,9 +249,10 @@ Add Internet permission and any activities your app requires.
 
         ListView lampList = (ListView) findViewById(R.id.bridge_list);
         lampList.setOnItemClickListener(this);
-        phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        phHueSDK = PHHueSDK.getInstance();
         adapter = new BridgeListAdapter(this, phHueSDK.getAccessPointsFound());
         lampList.setAdapter(adapter);
+        phHueSDK.getNotificationManager().registerSDKListener(listener);
     }
 	
 	private class BridgeListAdapter extends BaseAdapter{
@@ -339,6 +330,8 @@ Add Internet permission and any activities your app requires.
 			setTitle(R.string.txt_pushlink);
 			pbar = (ProgressBar) findViewById(R.id.countdownPB);
 			pbar.setMax(30);
+			
+		    phHueSDK.getNotificationManager().registerSDKListener(listener);
 		}
 		
 		@Override
@@ -351,6 +344,60 @@ Add Internet permission and any activities your app requires.
 		public void  incrementProgress(){
 			pbar.incrementProgressBy(1);
 		}
+		
+	// Create a listener to listen to responses from the bridge and increment the progress bar. 	
+    private PHSDKListener listener = new PHSDKListener() {
+
+        @Override
+        public void onAccessPointsFound(List<PHAccessPoint> arg0) {}
+
+        @Override
+        public void onAuthenticationRequired(PHAccessPoint arg0) {}
+
+        @Override
+        public void onBridgeConnected(PHBridge arg0) {}
+
+        @Override
+        public void onCacheUpdated(int arg0, PHBridge arg1) {}
+
+        @Override
+        public void onConnectionLost(PHAccessPoint arg0) {}
+
+        @Override
+        public void onConnectionResumed(PHBridge arg0) {}
+
+        @Override
+        public void onError(int code, final String message) {
+            if (code == PHMessageType.PUSHLINK_BUTTON_NOT_PRESSED) {
+                incrementProgress();
+            }
+            else if (code == PHMessageType.PUSHLINK_AUTHENTICATION_FAILED) {
+                incrementProgress();
+
+                if (!isDialogShowing) {
+                    isDialogShowing=true;
+                    PHPushlinkActivity.this.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(PHPushlinkActivity.this);
+                            builder.setMessage(message).setNeutralButton(R.string.btn_ok,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            finish();
+                                        }
+                                    });
+
+                            builder.create();
+                            builder.show();
+                        }
+                    });
+                }
+                
+            }
+
+        } // End of On Error
+    };		
 
     }
 
