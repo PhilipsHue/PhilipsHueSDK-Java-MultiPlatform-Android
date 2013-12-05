@@ -39,7 +39,7 @@ Password is: <b>philipshue</b>
 
 To obtain an instance of the SDK:
    
-    phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+    phHueSDK = PHHueSDK.getInstance();
 
    
 To get bridge information (e.g. Lights, Config, Scenes, Groups) use the Bridge Resource Cache. For example:
