@@ -83,7 +83,7 @@ public class PHGroupFeaturesActivity extends Activity implements
      */
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int index, long arg3) {
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
         PHBridgeResourcesCache cache = phHueSDK.getSelectedBridge()
                 .getResourceCache();
         List<PHGroup> groups = cache.getAllGroups();

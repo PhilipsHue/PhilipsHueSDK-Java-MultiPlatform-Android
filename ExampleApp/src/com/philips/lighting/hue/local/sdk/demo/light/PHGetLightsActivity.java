@@ -47,7 +47,7 @@ public class PHGetLightsActivity extends Activity {
         tvEmpty.setText(R.string.txt_no_lights);
         lvLights.setEmptyView(tvEmpty);
         // Get SDK wrapper
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
         PHBridge bridge = phHueSDK.getSelectedBridge();
         lvLights.setAdapter(new LightListAdapter(bridge.getResourceCache().getAllLights()));
         lvLights.setSelector(android.R.color.transparent);

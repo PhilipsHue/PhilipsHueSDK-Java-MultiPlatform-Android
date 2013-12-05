@@ -33,7 +33,7 @@ public class PHBridgeFeaturesActivity extends ListActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
         setTitle(phHueSDK.getSelectedBridge().getResourceCache()
                 .getBridgeConfiguration().getIpAddress());
         setListAdapter(new ArrayAdapter<String>(this,
@@ -84,16 +84,13 @@ public class PHBridgeFeaturesActivity extends ListActivity implements
         }
 
     }
-
-    /**
-     * Called when the activity is becoming visible to the user. Stores current
-     * activity inside {@link PHHueSDKWrapper} for notifications
-     */
     @Override
-    protected void onStart() {
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
-        phHueSDK.setCurrentActivty(this);
-        super.onStart();
+    protected void onDestroy() {
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
+        if (phHueSDK.getSelectedBridge() != null) {
+            phHueSDK.disableAllHeartbeat();
+            phHueSDK.disconnect(phHueSDK.getSelectedBridge());
+            super.onDestroy();
+        }
     }
-
 }

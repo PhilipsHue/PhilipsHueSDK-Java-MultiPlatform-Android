@@ -5,7 +5,9 @@ import java.util.Hashtable;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ import com.philips.lighting.hue.listener.PHLightListener;
 import com.philips.lighting.hue.local.sdk.demo.PHHomeActivity;
 import com.philips.lighting.hue.local.sdk.demo.PHWizardAlertDialog;
 import com.philips.lighting.hue.local.sdk.demo.R;
+import com.philips.lighting.hue.local.sdk.demo.group.PHCreateGroupActivity;
 import com.philips.lighting.hue.sdk.PHHueSDK;
 import com.philips.lighting.hue.sdk.wizard.helper.PHClearableEditText;
 import com.philips.lighting.model.PHBridge;
@@ -59,10 +62,9 @@ public class PHRenameLightListActivity extends Activity implements
         lvLights.setEmptyView(tvEmpty);
         lvLights.setOnItemClickListener(this);
         // Get SDK wrapper
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
-        lvLights.setAdapter(new LightListAdapter(bridge.getResourceCache()
-                .getAllLights()));
+        lvLights.setAdapter(new LightListAdapter(bridge.getResourceCache().getAllLights()));
     }
 
     /**
@@ -241,13 +243,15 @@ public class PHRenameLightListActivity extends Activity implements
                                             }
 
                                             @Override
-                                            public void onError(int code,
-                                                    String message) {
-                                                PHWizardAlertDialog
-                                                        .showAuthenticationErrorDialog(
-                                                                PHRenameLightListActivity.this,
-                                                                message,
-                                                                R.string.btn_ok);
+                                            public void onError(int code, final String message) {
+                                                PHRenameLightListActivity.this.runOnUiThread(new Runnable() {
+                                                    public void run() {
+                                                        if (isCurrentActivity()) {
+                                                            PHWizardAlertDialog.showAuthenticationErrorDialog(PHRenameLightListActivity.this, message, R.string.btn_ok);
+                                                        }
+                                                    }
+                                                  });
+                                               
                                             }
                                         });
 
@@ -288,5 +292,13 @@ public class PHRenameLightListActivity extends Activity implements
         }
         return true;
     }
-
+    
+    private boolean isCurrentActivity() {
+        ActivityManager mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> RunningTask = mActivityManager.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo ar = RunningTask.get(0);
+        String currentClass = "." + this.getClass().getSimpleName();
+        String topActivity =  ar.topActivity.getShortClassName().toString();
+        return topActivity.contains(currentClass);
+    }
 }

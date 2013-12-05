@@ -86,7 +86,7 @@ public class PHUpdateRecurringTimerActivity extends Activity {
         String lightArray[];
         String groupArray[];
         
-        phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
 
         recurringTimers = bridge.getResourceCache().getAllTimers(true);

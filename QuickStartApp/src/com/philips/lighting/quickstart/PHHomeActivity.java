@@ -1,54 +1,45 @@
 package com.philips.lighting.quickstart;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.philips.lighting.data.HueSharedPreferences;
 import com.philips.lighting.hue.sdk.PHAccessPoint;
 import com.philips.lighting.hue.sdk.PHBridgeSearchManager;
 import com.philips.lighting.hue.sdk.PHHueSDK;
-import com.philips.lighting.hue.sdk.PHMessageType;
 import com.philips.lighting.hue.sdk.PHSDKListener;
-import com.philips.lighting.hue.sdk.data.BridgeHeader;
 import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHHueError;
 
-public class PHHomeActivity extends Activity implements OnItemClickListener {
+public class PHHomeActivity extends Activity {
 
     private PHHueSDK phHueSDK;
-    private BridgeListAdapter adapter;
     public static final String TAG = "QuickStart";
-    private ListView lvBridges;
     private RelativeLayout relLayoutVersion;
     private TextView tvVersion;
+    HueSharedPreferences prefs;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
         initializeComponents();
-        phHueSDK = PHHueSDK.create(getApplicationContext());
-
-        lvBridges.setOnItemClickListener(this);
+        phHueSDK = PHHueSDK.create();
+        
+        // Set the Device Name (name of your app). This will be stored in your bridge whitelist entry.
+        phHueSDK.setDeviceName("QuickStartApp");
         
         // Make footer visible for Home Activity
         relLayoutVersion.setVisibility(View.VISIBLE);
@@ -56,7 +47,20 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
         Log.w(TAG, "Listener Registered1.   Starting Search Manager.");
         // Register the PHSDKListener to receive callbacks from the bridge.
         phHueSDK.getNotificationManager().registerSDKListener(listener);
+        
+        // Try to automatically connect to the last known bridge.
+        prefs = HueSharedPreferences.getInstance(getApplicationContext());
+        String lastIpAddress   = prefs.getLastConnectedIPAddress();
+        String lastUsername    = prefs.getUsername();
 
+        // Automatically try and to connect to the last connected IP Address.  For multiple bridge support a different implementation is required.
+        if (lastIpAddress !=null) {
+            PHWizardAlertDialog.getInstance().showProgressDialog(R.string.connecting, PHHomeActivity.this);
+            PHAccessPoint lastAccessPoint = new PHAccessPoint();
+            lastAccessPoint.setIpAddress(lastIpAddress);
+            lastAccessPoint.setUsername(lastUsername);
+            phHueSDK.connect(lastAccessPoint);
+        }
     }
 
     @Override
@@ -74,49 +78,27 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
     private PHSDKListener listener = new PHSDKListener() {
 
         @Override
-        public void onError(int code, String message) {
+        public void onError(int code, final String message) {
             Log.e(TAG, "on Error Called : " + code + ":" + message);
-            Activity act = phHueSDK.getCurrentActivty();
 
-            if (act == null) {
-                return;
-            }
-            if (code == PHMessageType.BRIDGE_NOT_FOUND) {
-                PHWizardAlertDialog.getInstance().closeProgressDialog();
-                PHWizardAlertDialog.showErrorDialog(act, message,
-                        R.string.btn_ok);
-            } else if (code == PHMessageType.PUSHLINK_BUTTON_NOT_PRESSED) {
-                if (act instanceof PHPushlinkActivity) {
-                    ((PHPushlinkActivity) act).incrementProgress();
-                }
-            } else if (code == PHMessageType.PUSHLINK_AUTHENTICATION_FAILED) {
-                if (act instanceof PHPushlinkActivity) {
-                    ((PHPushlinkActivity) act).incrementProgress();
-                }
-                PHWizardAlertDialog.showAuthenticationErrorDialog(act, message,
-                        R.string.btn_ok);
-
-            } else if (code == PHHueError.BRIDGE_NOT_RESPONDING) {
-                PHWizardAlertDialog.getInstance().closeProgressDialog();
-                PHWizardAlertDialog.showErrorDialog(act, message, R.string.btn_ok);
-
-            } else if (code == PHHueError.NO_CONNECTION) {
+            if (code == PHHueError.NO_CONNECTION) {
                 Log.w(TAG, "On No Connection");
-            } else if (code == PHHueError.AUTHENTICATION_FAILED) {
+            } else if (code == PHHueError.AUTHENTICATION_FAILED) {  
                 PHWizardAlertDialog.getInstance().closeProgressDialog();
+            } else if (code == PHHueError.BRIDGE_NOT_RESPONDING) {
+                Log.w("QuickStart", "Bridge Not Responding . . . ");
+                PHWizardAlertDialog.getInstance().closeProgressDialog();
+                PHHomeActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (isCurrentActivity()) { PHWizardAlertDialog.showErrorDialog(PHHomeActivity.this, message, R.string.btn_ok); }
+                    }
+                }); 
 
-                if (act instanceof PHHomeActivity) {
-                    PHWizardAlertDialog.showErrorDialog(act, message,
-                            R.string.btn_ok);
-                    ((PHHomeActivity) act).refresh();
-                } else {
-                    goBackToHome();
-                }
-            } else {
+            } 
+            else {
                 // For any other error
-                PHWizardAlertDialog.getInstance().closeProgressDialog();
-                Toast.makeText(phHueSDK.getApplicationContext(), message,
-                        Toast.LENGTH_LONG).show();
+ 
             }
         }
 
@@ -129,56 +111,46 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
         @Override
         public void onAccessPointsFound(List<PHAccessPoint> accessPoint) {
             Log.w(TAG, "Access Points Found.");
-            Activity act = phHueSDK.getCurrentActivty();
 
             PHWizardAlertDialog.getInstance().closeProgressDialog();
             if (accessPoint != null && accessPoint.size() > 0) {
                 phHueSDK.getAccessPointsFound().clear();
                 phHueSDK.getAccessPointsFound().addAll(accessPoint);
-                // show list of bridges
-                if (act instanceof PHAccessPointListActivity) {
-                    ((PHAccessPointListActivity) act).refreshList();
-                } else {
-                    act.startActivity(new Intent(act,
-                            PHAccessPointListActivity.class));
-                }
-
+                startActivity(new Intent(getApplicationContext(),PHAccessPointListActivity.class));
             } else {
-                // show error dialog
-                PHWizardAlertDialog.showErrorDialog(act,
-                        phHueSDK.getApplicationContext().getString( R.string.could_not_find_bridge),R.string.btn_retry);
+                // TODO Test this.
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+//                PHWizardAlertDialog.getInstance().showProgressDialog(R.string.search_progress, PHHomeActivity.this);
+//                PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
+//                // Start the IP Scan Search if the UPNP and NPNP return 0 results.
+//                sm.search(false, false, true);
+//            }
             }
+            
         }
 
         @Override
         public void onBridgeConnected(PHBridge b) {
-            Log.w(TAG, "Bridge Connected.");
             phHueSDK.setSelectedBridge(b);
+            phHueSDK.enableHeartbeat(b, PHHueSDK.HB_INTERVAL);
             phHueSDK.getLastHeartbeat().put(b.getResourceCache().getBridgeConfiguration() .getIpAddress(), System.currentTimeMillis());
+            prefs.setLastConnectedIPAddress(b.getResourceCache().getBridgeConfiguration().getIpAddress());
+            prefs.setUsername(prefs.getUsername());
             PHWizardAlertDialog.getInstance().closeProgressDialog();
-            Intent intent = new Intent(getApplicationContext(),
-                    MyApplicationActivity.class);
-            startActivity(intent);
+            startMainActivity();
         }
 
         @Override
         public void onAuthenticationRequired(PHAccessPoint accessPoint) {
             Log.w(TAG, "Authentication Required.");
-
-            Activity act = phHueSDK.getCurrentActivty();
-            PHWizardAlertDialog.getInstance().closeProgressDialog();
-            act.startActivity(new Intent(act, PHPushlinkActivity.class));
+            
             phHueSDK.startPushlinkAuthentication(accessPoint);
-            if (act instanceof PHAccessPointListActivity) {
-                act.finish();
-            } else if (act instanceof PHHomeActivity) {
-                ((PHHomeActivity) act).refresh();
-            }
+            startActivity(new Intent(PHHomeActivity.this, PHPushlinkActivity.class));
+           
         }
 
         @Override
         public void onConnectionResumed(PHBridge bridge) {
-            
             if (PHHomeActivity.this.isFinishing())
                 return;
             
@@ -186,123 +158,28 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
             phHueSDK.getLastHeartbeat().put(bridge.getResourceCache().getBridgeConfiguration().getIpAddress(),  System.currentTimeMillis());
             for (int i = 0; i < phHueSDK.getDisconnectedAccessPoint().size(); i++) {
 
-                if (phHueSDK.getDisconnectedAccessPoint()
-                        .get(i).getIpAddress()
-                        .equals(bridge.getResourceCache().getBridgeConfiguration().getIpAddress())) {
+                if (phHueSDK.getDisconnectedAccessPoint().get(i).getIpAddress().equals(bridge.getResourceCache().getBridgeConfiguration().getIpAddress())) {
                     phHueSDK.getDisconnectedAccessPoint().remove(i);
                 }
             }
 
-            PHHomeActivity.this.refresh();
         }
 
         @Override
         public void onConnectionLost(PHAccessPoint accessPoint) {
-            Activity act = phHueSDK.getCurrentActivty();
             Log.v(TAG, "onConnectionLost : " + accessPoint.getIpAddress());
             if (!phHueSDK.getDisconnectedAccessPoint().contains(accessPoint)) {
                 phHueSDK.getDisconnectedAccessPoint().add(accessPoint);
-                if (act instanceof PHHomeActivity) {
-                    ((PHHomeActivity) act).refresh();
-                } else {
-                    goBackToHome();
-                }
             }
         }
     };
 
-    public void refresh() {
-        if (adapter != null) {
-            if (phHueSDK == null) {
-                phHueSDK = PHHueSDK.create(getApplicationContext());
-            }
-            adapter.updateData(phHueSDK.getBridgesForDisplay());
-        }
 
-    }
-
-    /**
-     * Adapter for bridges list
-     * 
-     * @author Steve O'R
-     * 
-     */
-    class BridgeListAdapter extends BaseAdapter {
-        private List <BridgeHeader> bridgeData;
-        private LayoutInflater mInflater;
-
-        public BridgeListAdapter(ArrayList<BridgeHeader> bridgeData) {
-            this.bridgeData = bridgeData;
-            mInflater = LayoutInflater.from(PHHomeActivity.this);
-        }
-
-        @Override
-        public int getCount() {
-            return bridgeData.size();
-        }
-
-        @Override
-        public Object getItem(int arg0) {
-
-            return bridgeData.get(arg0);
-        }
-
-        @Override
-        public long getItemId(int arg0) {
-            return arg0;
-        }
-
-        @Override
-        public View getView(int index, View convertView, ViewGroup arg2) {
-
-            RowView rv = null;
-            if (convertView == null) {
-                rv = new RowView();
-                convertView = mInflater.inflate(R.layout.home_row, null);
-                rv.tvIPAddress = (TextView) convertView
-                        .findViewById(R.id.tv_bridge_ip);
-                rv.tvStatus = (TextView) convertView
-                        .findViewById(R.id.tv_status);
-                rv.tvStatus.setVisibility(View.VISIBLE);
-                rv.tvLastHeartbeat = (TextView) convertView
-                        .findViewById(R.id.tv_lastHeartbeat);
-                convertView.setTag(rv);
-            } else {
-                rv = (RowView) convertView.getTag();
-            }
-            BridgeHeader data = bridgeData.get(index);
-            rv.tvIPAddress.setText(data.getIPAddress());
-            rv.tvStatus.setText(data.getStatus());
-            if (data.getLastHeartbeat() == -1) {
-                rv.tvLastHeartbeat.setText(R.string.txt_last_heartbeat);
-            } else {
-                SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss aa");
-                rv.tvLastHeartbeat.setText(getResources().getString(
-                        R.string.txt_last_heartbeat)
-                        + " " + df.format(new Date(data.getLastHeartbeat())));
-            }
-
-            return convertView;
-        }
-
-        class RowView {
-            private TextView tvIPAddress;
-            private TextView tvStatus;
-            private TextView tvLastHeartbeat;
-        }
-
-        public void updateData(ArrayList<BridgeHeader> data) {
-            bridgeData = data;
-            notifyDataSetChanged();
-        }
-    }
-
-    public void goBackToHome() {
-        Intent i = new Intent(phHueSDK.getApplicationContext(),
-                PHHomeActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    }
+//    public void goBackToHome() {
+//        Intent i = new Intent(getApplicationContext(),PHHomeActivity.class);
+//        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//    }
 
     /**
      * Initialize the UI components.
@@ -310,19 +187,6 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
     private void initializeComponents() {
         relLayoutVersion = (RelativeLayout) findViewById(R.id.includeVersion);
         tvVersion = (TextView) findViewById(R.id.tvSdkVersion);
-        lvBridges = (ListView) findViewById(R.id.list_bridges);
-        // set empty view if adapter data size=0
-        lvBridges.setEmptyView(findViewById(R.id.empty_list_view));
-    }
-    
-    @Override
-    protected void onResume() {
-        super.onResume();
-        phHueSDK.setCurrentActivty(this);
-        ArrayList<BridgeHeader> bridgeData = phHueSDK.getBridgesForDisplay();
-        adapter = new BridgeListAdapter(bridgeData);
-        lvBridges.setAdapter(adapter);
-        lvBridges.invalidate();
     }
 
     /**
@@ -338,7 +202,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
         switch (item.getItemId()) {
         case R.id.find_new_bridge:
             // Display Search Progress animation.
-            PHWizardAlertDialog.getInstance().showProgressDialog(R.string.search_progress, this);
+            PHWizardAlertDialog.getInstance().showProgressDialog(R.string.search_progress, PHHomeActivity.this);
             PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
             // Start the UPNP Searching of local bridges.
             sm.search(true, true);
@@ -346,20 +210,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
         }
         return true;
     }
-    
-    @Override
-    public void onItemClick(AdapterView<?> arg0, View arg1, int index, long arg3) {
-        BridgeHeader header = (BridgeHeader) lvBridges.getItemAtPosition(index);
-        if (header.getStatus().equals("Connected")) {
 
-            Intent intent = new Intent(this, MyApplicationActivity.class);
-            startActivity(intent);
-        } else {
-            PHAccessPoint accessPoint = new PHAccessPoint();
-            accessPoint.setIpAddress(header.getIPAddress());
-            phHueSDK.connect(accessPoint);
-        }
-    }
 
     /**
      * Called when the activity has detected the user's press of the back key.
@@ -369,11 +220,35 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
         // Preferred to do it here because it might take more time. So let's
         // don't do this time consuming task inside onDestroy.
         if (phHueSDK != null) {
-            phHueSDK.stopAllHeartbeat();
+            phHueSDK.disableAllHeartbeat();
             phHueSDK.destroySDK();
             phHueSDK = null;
         }
 
         super.onBackPressed();
+    }
+    
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        phHueSDK.disableAllHeartbeat();
+    }
+    
+    public void startMainActivity() {   
+        Intent intent = new Intent(getApplicationContext(), MyApplicationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+            intent.addFlags(0x8000); // equal to Intent.FLAG_ACTIVITY_CLEAR_TASK which is only available from API level 11
+        startActivity(intent);
+    }
+    
+    private boolean isCurrentActivity() {
+        ActivityManager mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> RunningTask = mActivityManager.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo ar = RunningTask.get(0);
+        String currentClass = "." + this.getClass().getSimpleName();
+        String topActivity =  ar.topActivity.getShortClassName().toString();
+        return topActivity.equals(currentClass);
     }
 }

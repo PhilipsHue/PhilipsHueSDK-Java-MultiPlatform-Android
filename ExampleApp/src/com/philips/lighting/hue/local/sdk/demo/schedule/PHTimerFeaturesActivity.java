@@ -66,7 +66,7 @@ public class PHTimerFeaturesActivity extends Activity implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id) {
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
         PHBridgeResourcesCache cache = phHueSDK.getSelectedBridge()
                 .getResourceCache();
         List<PHSchedule> nonRecurringTimers = cache.getAllTimers(false);

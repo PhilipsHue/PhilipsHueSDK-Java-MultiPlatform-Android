@@ -91,7 +91,7 @@ public class PHUpdateLightStateActivity extends Activity {
         setContentView(R.layout.light_state);
         apiCall = getIntent().getBooleanExtra("Api_Call", false);
 
-        phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
         lights = bridge.getResourceCache().getAllLights();
         getLightNames();
@@ -614,7 +614,7 @@ public class PHUpdateLightStateActivity extends Activity {
                     @Override
                     public void onStateUpdate(
                             Hashtable<String, String> successResponse,
-                           List<PHHueError> errorResponse) {
+                            List<PHHueError> errorResponse) {
                         dialogManager.closeProgressDialog();
                         StringBuffer sb = new StringBuffer();
                         sb.append("Success :  ");

@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,6 +34,7 @@ import com.philips.lighting.hue.listener.PHBridgeConfigurationListener;
 import com.philips.lighting.hue.local.sdk.demo.PHHomeActivity;
 import com.philips.lighting.hue.local.sdk.demo.PHWizardAlertDialog;
 import com.philips.lighting.hue.local.sdk.demo.R;
+import com.philips.lighting.hue.local.sdk.demo.schedule.PHCreateNonRecurringScheduleActivity;
 import com.philips.lighting.hue.sdk.PHHueSDK;
 import com.philips.lighting.hue.sdk.wizard.helper.PHBridgeToggleAdapter;
 import com.philips.lighting.hue.sdk.wizard.helper.PHClearableEditText;
@@ -69,9 +71,9 @@ public class PHBridgeConfigurationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.configuration);
-        phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
-        phHueSDK.stopHeartbeat(bridge);
+        phHueSDK.disableHeartbeat(bridge);
         bridgeConfig = bridge.getResourceCache().getBridgeConfiguration();
 
         final TextView txtBridgeTitle = (TextView) findViewById(R.id.txt_title);
@@ -461,7 +463,7 @@ public class PHBridgeConfigurationActivity extends Activity {
      * Saves bridge configurations using bridge API
      */
     private void saveData() {
-        phHueSDK.stopHeartbeat(bridge);
+        phHueSDK.disableHeartbeat(bridge);
         final PHBridgeConfiguration config = new PHBridgeConfiguration();
         config.setName(txtBridgeName.getText().toString());
         config.setDhcpEnabled(tglDhcp.isChecked());
@@ -538,19 +540,22 @@ public class PHBridgeConfigurationActivity extends Activity {
                 new PHBridgeConfigurationListener() {
 
                     @Override
-                    public void onError(int code, String msg) {
+                    public void onError(int code, final String msg) {
 
+                        PHBridgeConfigurationActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                if (isCurrentActivity()) {
+                                    PHWizardAlertDialog.showErrorDialog(PHBridgeConfigurationActivity.this, msg,R.string.btn_ok);
+                                }
+                            }
+                          });
                         dialogManager.closeProgressDialog();
                         Log.v(TAG, "onError : " + code + " : " + msg);
-                        PHWizardAlertDialog.showErrorDialog(
-                                PHBridgeConfigurationActivity.this, msg,
-                                R.string.btn_ok);
+                        
                     }
 
                     @Override
-                    public void onStateUpdate(
-                            Hashtable<String, String> successResponse,
-                            List<PHHueError> errorResponse) {
+                    public void onStateUpdate( Hashtable<String, String> successResponse,List<PHHueError> errorResponse) {
 
                         StringBuffer sb = new StringBuffer();
                         sb.append("Success :  ");
@@ -565,14 +570,18 @@ public class PHBridgeConfigurationActivity extends Activity {
                                     + hueError.getMessage() + ")"
                                     + "\n\t\t\t\t");
                         }
-                        String resultString = sb.toString();
+                        final String resultString = sb.toString();
                         dialogManager.closeProgressDialog();
                         Log.v(TAG, "successResponse : " + successResponse
                                 + " errorResponse : " + errorResponse);
-                        PHWizardAlertDialog.showResultDialog(
-                                PHBridgeConfigurationActivity.this,
-                                resultString, R.string.btn_ok,
-                                R.string.txt_result);
+                        PHBridgeConfigurationActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                if (isCurrentActivity()) {
+                                    PHWizardAlertDialog.showResultDialog( PHBridgeConfigurationActivity.this,resultString, R.string.btn_ok, R.string.txt_result);
+                                }
+                            }
+                          });
+                        
                     }
 
                     @Override
@@ -689,7 +698,16 @@ public class PHBridgeConfigurationActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        phHueSDK.startHeartbeat(bridge, PHHueSDK.HB_INTERVAL);
+        phHueSDK.enableHeartbeat(bridge, PHHueSDK.HB_INTERVAL);
         super.onDestroy();
+    }
+    
+    private boolean isCurrentActivity() {
+        ActivityManager mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> RunningTask = mActivityManager.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo ar = RunningTask.get(0);
+        String currentClass = "." + this.getClass().getSimpleName();
+        String topActivity =  ar.topActivity.getShortClassName().toString();
+        return topActivity.contains(currentClass);
     }
 }

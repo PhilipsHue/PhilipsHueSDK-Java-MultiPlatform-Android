@@ -1,6 +1,5 @@
 package com.philips.lighting.quickstart;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
@@ -29,7 +28,7 @@ public class MyApplicationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
         setContentView(R.layout.activity_main);
-		phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        phHueSDK = PHHueSDK.create();
         Button randomButton;
         randomButton = (Button) findViewById(R.id.buttonRand);
         randomButton.setOnClickListener(new OnClickListener() {
@@ -45,6 +44,7 @@ public class MyApplicationActivity extends Activity {
 
     public void randomLights() {
         PHBridge bridge = phHueSDK.getSelectedBridge();
+
         List<PHLight> allLights = bridge.getResourceCache().getAllLights();
         Random rand = new Random();
         
@@ -73,4 +73,12 @@ public class MyApplicationActivity extends Activity {
         public void onError(int arg0, String arg1) {  
         }
     };
+    
+    @Override
+    protected void onDestroy() {
+        if (phHueSDK.getSelectedBridge() != null) {
+            phHueSDK.disconnect(phHueSDK.getSelectedBridge());
+            super.onDestroy();
+        }
+    }
 }

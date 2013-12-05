@@ -74,7 +74,7 @@ public class PHFindNewLightsActivity extends Activity {
             }
         });
         pbar.setMax(60);
-        phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
     }
 
@@ -84,7 +84,7 @@ public class PHFindNewLightsActivity extends Activity {
     private void startFindLamp() {
 
         textInfo.setText(R.string.txt_discovering);
-        phHueSDK.stopHeartbeat(bridge);
+        phHueSDK.disableHeartbeat(bridge);
         // Request bridge to start the search process
         bridge.findNewLights(new SampleLightListener());
 
@@ -133,7 +133,7 @@ public class PHFindNewLightsActivity extends Activity {
          */
         @Override
         public void onStateUpdate(Hashtable<String, String> successAttribute,
-                List<PHHueError> errorAttribute) {
+               List<PHHueError> errorAttribute) {
             // TODO Auto-generated method stub
 
         }
@@ -200,7 +200,7 @@ public class PHFindNewLightsActivity extends Activity {
          *            the array list of {@link PHBridgeResource}
          */
         public LampListAdapter(Context context,
-               List<PHBridgeResource> lamps) {
+                List<PHBridgeResource> lamps) {
             // Cache the LayoutInflate to avoid asking for a new one each time.
 
             mInflater = LayoutInflater.from(context);
@@ -316,7 +316,7 @@ public class PHFindNewLightsActivity extends Activity {
     @Override
     protected void onDestroy() {
 
-        phHueSDK.startHeartbeat(bridge, PHHueSDK.HB_INTERVAL);
+        phHueSDK.enableHeartbeat(bridge, PHHueSDK.HB_INTERVAL);
         super.onDestroy();
     }
 

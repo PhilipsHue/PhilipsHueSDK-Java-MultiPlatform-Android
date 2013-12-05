@@ -63,7 +63,7 @@
     <string name="menu_read_cache">Read Cache</string>
     <string name="title_lights">Available Lights</string>
     <string name="txt_result">Result</string>
-    
+    <string name="txt_selectbridges">Available Access Points</string>
     <string name="enter_group_name">Enter group name</string>
     <string name="txt_findnewlights">Find new lights</string>
     <string name="txt_manual_search_info">1. Enter the serial No. of the light(s).\n2. Screw in the bulbs.\n3. Turn on the light.\n4. Start searching</string>

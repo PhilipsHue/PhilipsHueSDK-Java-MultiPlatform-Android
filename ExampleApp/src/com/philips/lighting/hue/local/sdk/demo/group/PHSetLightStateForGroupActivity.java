@@ -81,7 +81,7 @@ public class PHSetLightStateForGroupActivity extends Activity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_light_state);
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
         groups = bridge.getResourceCache().getAllGroups();
         groupSpinner = (Spinner) findViewById(R.id.groupSpinner);

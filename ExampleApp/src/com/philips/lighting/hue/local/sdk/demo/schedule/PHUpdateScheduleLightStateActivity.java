@@ -91,7 +91,7 @@ public class PHUpdateScheduleLightStateActivity extends Activity {
 
         apiCall = getIntent().getBooleanExtra("Api_Call", false);
 
-        phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        phHueSDK = PHHueSDK.getInstance();
         lastKnownLightState = phHueSDK.getCurrentLightState();
         bridge = phHueSDK.getSelectedBridge();
         lights = bridge.getResourceCache().getAllLights();

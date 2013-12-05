@@ -66,17 +66,16 @@ public final class PHWizardAlertDialog {
      * @param btnNameResId
      *            the String resource id to display text on button.
      */
-    public static void showErrorDialog(Context activityContext, String message,
-            int btnNameResId) {
+    public static void showErrorDialog(Context activityContext, String message, int btnNameResId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activityContext);
-        builder.setTitle(R.string.title_error).setMessage(message)
-                .setPositiveButton(btnNameResId, null);
+        builder.setTitle(R.string.title_error).setMessage(message).setPositiveButton(btnNameResId, null);
         AlertDialog alert = builder.create();
-        alert.getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        alert.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alert.show();
     }
 
+
+    
     /**
      * Stops running progress-bar.
      */

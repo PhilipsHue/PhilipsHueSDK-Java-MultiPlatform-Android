@@ -7,7 +7,9 @@ import java.util.Hashtable;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -89,11 +91,10 @@ public class PHUpdateNonRecurringScheduleActivity extends Activity {
         String lightArray[];
         String groupArray[];
         
-        phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
 
-        nonRecurringSchedules = bridge.getResourceCache()
-                .getAllSchedules(false);
+        nonRecurringSchedules = bridge.getResourceCache().getAllSchedules(false);
         String nonRecurringScheduleArray[] = phHueSDK
                 .getScheduleNames(nonRecurringSchedules);
 
@@ -409,10 +410,14 @@ public class PHUpdateNonRecurringScheduleActivity extends Activity {
             public void onSuccess() {
 
                 dialogManager.closeProgressDialog();
-                PHWizardAlertDialog.showResultDialog(
-                        PHUpdateNonRecurringScheduleActivity.this,
-                        getString(R.string.txt_timer_updated), R.string.btn_ok,
-                        R.string.txt_result);
+                PHUpdateNonRecurringScheduleActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (isCurrentActivity()) { 
+                            PHWizardAlertDialog.showResultDialog(PHUpdateNonRecurringScheduleActivity.this, getString(R.string.txt_timer_updated), R.string.btn_ok, R.string.txt_result);
+                        }
+                    }
+                  });
+                
             }
 
             @Override
@@ -423,14 +428,28 @@ public class PHUpdateNonRecurringScheduleActivity extends Activity {
             }
 
             @Override
-            public void onError(int code, String msg) {
+            public void onError(int code, final String msg) {
                 dialogManager.closeProgressDialog();
                 Log.v(TAG, "onError : " + code + " : " + msg);
-                PHWizardAlertDialog.showErrorDialog(
-                        PHUpdateNonRecurringScheduleActivity.this, msg,
-                        R.string.btn_ok);
+                PHUpdateNonRecurringScheduleActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (isCurrentActivity()) { 
+                           PHWizardAlertDialog.showErrorDialog(PHUpdateNonRecurringScheduleActivity.this, msg,R.string.btn_ok);
+                        }
+                    }
+                  });
+                
             }
         });
     }
+    
+    private boolean isCurrentActivity() {
+        ActivityManager mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> RunningTask = mActivityManager.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo ar = RunningTask.get(0);
+        String currentClass = "." + this.getClass().getSimpleName();
+        String topActivity =  ar.topActivity.getShortClassName().toString();
+        return topActivity.contains(currentClass);
+    }    
 
 }

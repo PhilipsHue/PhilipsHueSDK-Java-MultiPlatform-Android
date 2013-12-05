@@ -5,6 +5,8 @@ import java.util.Hashtable;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -49,7 +51,7 @@ public class PHGetScenesActivity extends Activity {
         tvEmpty.setText(R.string.txt_no_scene);
         listView.setEmptyView(tvEmpty);
 
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
         PHBridge bridge = phHueSDK.getSelectedBridge();
 
         final PHWizardAlertDialog dialogManager = PHWizardAlertDialog
@@ -74,10 +76,16 @@ public class PHGetScenesActivity extends Activity {
             }
 
             @Override
-            public void onError(int code, String message) {
+            public void onError(int code, final String message) {
                 dialogManager.closeProgressDialog();
-                PHWizardAlertDialog.showErrorDialog(PHGetScenesActivity.this,
-                        message, R.string.btn_ok);
+                PHGetScenesActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (isCurrentActivity()) {
+                            PHWizardAlertDialog.showErrorDialog(PHGetScenesActivity.this, message, R.string.btn_ok);
+                        }
+                    }
+                  });
+               
             }
 
             @Override
@@ -207,5 +215,14 @@ public class PHGetScenesActivity extends Activity {
             private TextView tvName;
             private TextView tvId;
         }
+    }
+    
+    private boolean isCurrentActivity() {
+        ActivityManager mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> RunningTask = mActivityManager.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo ar = RunningTask.get(0);
+        String currentClass = "." + this.getClass().getSimpleName();
+        String topActivity =  ar.topActivity.getShortClassName().toString();
+        return topActivity.contains(currentClass);
     }
 }

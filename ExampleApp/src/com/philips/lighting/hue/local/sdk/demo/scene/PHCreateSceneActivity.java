@@ -5,6 +5,8 @@ import java.util.Hashtable;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,7 @@ import com.philips.lighting.hue.listener.PHSceneListener;
 import com.philips.lighting.hue.local.sdk.demo.PHHomeActivity;
 import com.philips.lighting.hue.local.sdk.demo.PHWizardAlertDialog;
 import com.philips.lighting.hue.local.sdk.demo.R;
+import com.philips.lighting.hue.local.sdk.demo.group.PHCreateGroupActivity;
 import com.philips.lighting.hue.sdk.PHHueSDK;
 import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHHueError;
@@ -59,7 +62,7 @@ public class PHCreateSceneActivity extends Activity {
         lightlistView.setItemsCanFocus(false);
         lightlistView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
         lights = bridge.getResourceCache().getAllLights();
 
@@ -178,11 +181,17 @@ public class PHCreateSceneActivity extends Activity {
             }
 
             @Override
-            public void onError(int code, String msg) {
+            public void onError(int code, final String msg) {
                 Log.v(TAG, "onError : " + code + " : " + msg);
                 dialogManager.closeProgressDialog();
-                PHWizardAlertDialog.showErrorDialog(PHCreateSceneActivity.this,
-                        msg, R.string.btn_ok);
+                PHCreateSceneActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (isCurrentActivity()) {
+                            PHWizardAlertDialog.showErrorDialog(PHCreateSceneActivity.this, msg, R.string.btn_ok);
+                        }
+                    }
+                  });
+               
             }
 
             @Override
@@ -191,5 +200,14 @@ public class PHCreateSceneActivity extends Activity {
 
             }
         });
+    }
+    
+    private boolean isCurrentActivity() {
+        ActivityManager mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> RunningTask = mActivityManager.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo ar = RunningTask.get(0);
+        String currentClass = "." + this.getClass().getSimpleName();
+        String topActivity =  ar.topActivity.getShortClassName().toString();
+        return topActivity.contains(currentClass);
     }
 }

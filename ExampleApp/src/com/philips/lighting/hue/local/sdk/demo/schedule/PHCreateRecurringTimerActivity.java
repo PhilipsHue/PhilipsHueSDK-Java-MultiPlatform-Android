@@ -5,7 +5,9 @@ import java.util.Hashtable;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -81,7 +83,7 @@ public class PHCreateRecurringTimerActivity extends Activity {
         setContentView(R.layout.createschedule);
         initComponents();
 
-        phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
 
         // lights to create timer.
@@ -400,13 +402,27 @@ public class PHCreateRecurringTimerActivity extends Activity {
             @Override
             public void onCreated(PHSchedule schedule) {
                 dialogManager.closeProgressDialog();
-                PHWizardAlertDialog.showResultDialog(
-                        PHCreateRecurringTimerActivity.this,
-                        getString(R.string.txt_timer_created), R.string.btn_ok,
-                        R.string.txt_result);
+                
+                PHCreateRecurringTimerActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (isCurrentActivity()) {
+                            PHWizardAlertDialog.showResultDialog(PHCreateRecurringTimerActivity.this,getString(R.string.txt_timer_created), R.string.btn_ok,R.string.txt_result);
+                        }
+                    }
+                  });
+                
+                
                 return;
             }
         });
     }
-
+    
+    private boolean isCurrentActivity() {
+        ActivityManager mActivityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> RunningTask = mActivityManager.getRunningTasks(1);
+        ActivityManager.RunningTaskInfo ar = RunningTask.get(0);
+        String currentClass = "." + this.getClass().getSimpleName();
+        String topActivity =  ar.topActivity.getShortClassName().toString();
+        return topActivity.contains(currentClass);
+    }
 }

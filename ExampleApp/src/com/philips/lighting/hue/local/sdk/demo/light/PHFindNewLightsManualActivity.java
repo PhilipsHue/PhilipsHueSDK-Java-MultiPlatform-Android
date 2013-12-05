@@ -49,7 +49,7 @@ public class PHFindNewLightsManualActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.find_new_lights_manual);
 
-        phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        phHueSDK = PHHueSDK.getInstance();
         Button btnAdd = (Button) findViewById(R.id.btn_add_light_serial);
         btnSearch = (Button) findViewById(R.id.button_start_searching);
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +146,7 @@ public class PHFindNewLightsManualActivity extends Activity {
 
             @Override
             public void onReceivingLights(
-                   List<PHBridgeResource> lightHeaders) {
+                    List<PHBridgeResource> lightHeaders) {
 
                 if (lightHeaders != null && lightHeaders.size() > 0 && !tempLightHeaders.containsAll(lightHeaders)) {
                         tempLightHeaders.addAll(lightHeaders);

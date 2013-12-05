@@ -46,7 +46,7 @@ public class PHSceneActivateActivity extends Activity {
 
         listView = (ListView) findViewById(R.id.list_items);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
         scenes = bridge.getResourceCache().getAllScenes();
         String[] arrIds = new String[scenes.size()];

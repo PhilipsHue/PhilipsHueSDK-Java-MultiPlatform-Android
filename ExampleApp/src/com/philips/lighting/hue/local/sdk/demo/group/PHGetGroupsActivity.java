@@ -53,7 +53,7 @@ public class PHGetGroupsActivity extends Activity {
         lvGroups.setEmptyView(tvEmpty);
 
         // Get SDK wrapper
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
         PHBridge bridge = phHueSDK.getSelectedBridge();
 
         final PHWizardAlertDialog dialogManager = PHWizardAlertDialog

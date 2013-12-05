@@ -69,8 +69,8 @@ public class PHLightFeaturesActivity extends Activity implements
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int index, long arg3) {
         Intent intent = null;
-        PHHueSDK phHueSDK = PHHueSDK.getInstance(getApplicationContext());
-       List<PHLight> lights = phHueSDK.getSelectedBridge().getResourceCache().getAllLights();
+        PHHueSDK phHueSDK = PHHueSDK.getInstance();
+        List<PHLight> lights = phHueSDK.getSelectedBridge().getResourceCache().getAllLights();
         switch (index) {
         case 0:
             if (lights.size() == 0) {
