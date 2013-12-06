@@ -183,10 +183,6 @@ public class Controller {
         PHAccessPoint accessPoint = new PHAccessPoint();
         accessPoint.setIpAddress(lastIpAddress);
         accessPoint.setUsername(username);
-        
-        // Testing the emulator.
-        accessPoint.setIpAddress("192.168.1.135:8000");
-        accessPoint.setUsername("newdeveloper");
         phHueSDK.connect(accessPoint);
         return true;
     }

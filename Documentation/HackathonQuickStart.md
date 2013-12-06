@@ -18,7 +18,7 @@ Here you have 2 Sample Apps (Android projects). Pick either to use as a starting
   <li>QuickStart App.  Contains a skeleton app with minimal functionality for connecting to a bridge and setting lights.</li>
   <li>Example App.  A more complete app containing schedules, groups, scenes.</li>
  </ul>
- Import either (as an Andriod project) into your favourite IDE.
+ Import either (as an Android project) into your favourite IDE.
  
 ##Deployment
 For installing the ADB drivers for the Amazon Kindle it is recommended to follow the below 2 links.
