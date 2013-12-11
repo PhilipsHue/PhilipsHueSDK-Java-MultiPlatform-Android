@@ -270,7 +270,16 @@ public class PHAccessPointListActivity extends Activity implements
     private PHSDKListener listener = new PHSDKListener() {
 
         @Override
-        public void onAccessPointsFound(List<PHAccessPoint> arg0) {}
+        public void onAccessPointsFound(List<PHAccessPoint> accessPoint) {
+            phHueSDK.getAccessPointsFound().clear();
+            phHueSDK.getAccessPointsFound().addAll(accessPoint);
+            PHAccessPointListActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
 
         @Override
         public void onAuthenticationRequired(PHAccessPoint arg0) {}

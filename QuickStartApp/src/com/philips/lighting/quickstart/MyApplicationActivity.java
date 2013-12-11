@@ -76,8 +76,14 @@ public class MyApplicationActivity extends Activity {
     
     @Override
     protected void onDestroy() {
-        if (phHueSDK.getSelectedBridge() != null) {
-            phHueSDK.disconnect(phHueSDK.getSelectedBridge());
+        PHBridge bridge = phHueSDK.getSelectedBridge();
+        if (bridge != null) {
+            
+            if (phHueSDK.isHeartbeatEnabled(bridge)) {
+                phHueSDK.disableHeartbeat(bridge);
+            }
+            
+            phHueSDK.disconnect(bridge);
             super.onDestroy();
         }
     }

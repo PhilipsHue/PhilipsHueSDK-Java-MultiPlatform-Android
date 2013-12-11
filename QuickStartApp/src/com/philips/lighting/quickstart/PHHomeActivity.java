@@ -54,12 +54,19 @@ public class PHHomeActivity extends Activity {
         String lastUsername    = prefs.getUsername();
 
         // Automatically try and to connect to the last connected IP Address.  For multiple bridge support a different implementation is required.
-        if (lastIpAddress !=null) {
-            PHWizardAlertDialog.getInstance().showProgressDialog(R.string.connecting, PHHomeActivity.this);
+        if (lastIpAddress !=null && !lastIpAddress.equals("")) {            
             PHAccessPoint lastAccessPoint = new PHAccessPoint();
             lastAccessPoint.setIpAddress(lastIpAddress);
             lastAccessPoint.setUsername(lastUsername);
-            phHueSDK.connect(lastAccessPoint);
+            if (!phHueSDK.isAccessPointConnected(lastAccessPoint)) {
+                PHWizardAlertDialog.getInstance().showProgressDialog(R.string.connecting, PHHomeActivity.this);
+                phHueSDK.connect(lastAccessPoint);
+             }
+        }
+        else {  // If first time use (no IP/Username stored in preferences) then automatically start a bridge search.
+            PHWizardAlertDialog.getInstance().showProgressDialog(R.string.connecting, PHHomeActivity.this);
+            PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
+            sm.search(true, true); 
         }
     }
 
@@ -114,19 +121,12 @@ public class PHHomeActivity extends Activity {
 
             PHWizardAlertDialog.getInstance().closeProgressDialog();
             if (accessPoint != null && accessPoint.size() > 0) {
-                phHueSDK.getAccessPointsFound().clear();
-                phHueSDK.getAccessPointsFound().addAll(accessPoint);
-                startActivity(new Intent(getApplicationContext(),PHAccessPointListActivity.class));
-            } else {
-                // TODO Test this.
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-//                PHWizardAlertDialog.getInstance().showProgressDialog(R.string.search_progress, PHHomeActivity.this);
-//                PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
-//                // Start the IP Scan Search if the UPNP and NPNP return 0 results.
-//                sm.search(false, false, true);
-//            }
-            }
-            
+                if (isCurrentActivity()) {
+                    phHueSDK.getAccessPointsFound().clear();
+                    phHueSDK.getAccessPointsFound().addAll(accessPoint);
+                    startActivity(new Intent(getApplicationContext(),PHAccessPointListActivity.class));
+                }
+            } 
         }
 
         @Override
@@ -174,12 +174,6 @@ public class PHHomeActivity extends Activity {
         }
     };
 
-
-//    public void goBackToHome() {
-//        Intent i = new Intent(getApplicationContext(),PHHomeActivity.class);
-//        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//    }
 
     /**
      * Initialize the UI components.
