@@ -1,6 +1,8 @@
 
 Hackathon - Quick Start Developers Guide
 ===============
+This guide is mainly intended for developers (attending Philips sponsored hackathons) who wish to use the Java SDK.
+
 <h2>Prerequisites</h2>
 
  <ul>
@@ -13,24 +15,24 @@ Either download the source as a .zip or use your favourite git client:-
 
 https://github.com/PhilipsHue/PhilipsHueSDKAndroid
 
-Here you have 2 Sample Apps (Android projects). Pick either to use as a starting point.
+Here you have 2 Sample Apps (Android projects) and 1 Java Desktop Application. Pick either to use as a starting point.
  <ul>
   <li>QuickStart App.  Contains a skeleton app with minimal functionality for connecting to a bridge and setting lights.</li>
   <li>Example App.  A more complete app containing schedules, groups, scenes.</li>
+  <li>Desktop App.  A Java Desktop Application written in Swing showing how to connect to your Hue Lights.</li>
  </ul>
- Import either (as an Android project) into your favourite IDE.
+ Import either into your favourite IDE.
  
-##Deployment
-For installing the ADB drivers for the Amazon Kindle it is recommended to follow the below 2 links.
-
-https://developer.amazon.com/sdk/fire/setup.html  (Installing SDK Add-Ons)
-
-https://developer.amazon.com/sdk/fire/connect-adb.html
-
 ##Connecting to/finding a Bridge
-On your mobile device in your Wi-Fi settings connect to the router that corresponds to the label on your bridge (e.g.  For "hue dev 009" Wi-Fi name would be "hue dev 009 2.4GHz"). 
+On your mobile device in your Wi-Fi settings connect to the router that corresponds to the label on your developer kit (e.g.  For "hue dev 009" Wi-Fi name would be "hue dev 009 2.4GHz"). 
 
 Password is: <b>philipshue</b>
+
+### Using an Emulator.
+If there are no developer kits available an Emulator can be used instead.  
+The following emulator is currently in development but it should be usable:
+
+http://steveyo.github.io/Hue-Emulator/
  
 ##Classpath
  The <b>huelocalsdk.jar</b> and the <b>sdkresources.jar</b> should be placed in your project buildpath (these are located under the /libs folder in either of the sample apps).
