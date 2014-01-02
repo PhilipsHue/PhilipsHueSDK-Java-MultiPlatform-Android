@@ -1,7 +1,12 @@
 # Android/Java SDK Changelog
 
+## 1.1.2beta (2014-01-02)
+Changes:
 
-
+  - Simplified the code/app.  PHAccessPointListActivity/Adapter class merged into PHHomeActivity, PHHomeActiviy now displays available bridges so now only 1 main PHSDKListener object.
+  - Added IPScan fallback code in case bridge search (upnp) fails.  
+  - Removed unused layouts.  
+  
 ## 1.1.1beta (2013-12-05)
 
 Features:

@@ -1,6 +1,6 @@
 The Hue SDK by Philips
 ===============
- (c) Copyright Philips 2012-2013
+ (c) Copyright Philips 2012-2014
 Introduction
 ----------------
 The Java/Android Hue SDK is a set of tools that are designed to make it easy to access the Hue system through the Hue Wi-Fi network connected bridge and control an associated set of connected lamps. The aim of the SDK is to enable you to create your own applications for the Hue system.
@@ -111,7 +111,7 @@ Add Internet and Get Tasks permission and any activities your app requires.
     </activity>
 
 ###PHHomeActivity.java
-
+Main purpose of the PHHomeActivity is to: handle automatic connection to the last connected bridge, stop/start the heartbeat, display a list of available bridges and calling the PushLink and main activities.
 
 **Startup:**
 **The PHHueSDK singleton instance is created.**
@@ -137,13 +137,19 @@ Add Internet and Get Tasks permission and any activities your app requires.
         String lastIpAddress   = prefs.getLastConnectedIPAddress();
         String lastUsername    = prefs.getUsername();
 
-        // Automatically try and to connect to the last connected IP Address.  For multiple bridge support a different implementation is required.
-        if (lastIpAddress !=null) {
-            PHWizardAlertDialog.getInstance().showProgressDialog(R.string.connecting, PHHomeActivity.this);
+        // Automatically try to connect to the last connected IP Address.  For multiple bridge support a different implementation is required.
+        if (lastIpAddress !=null && !lastIpAddress.equals("")) {
             PHAccessPoint lastAccessPoint = new PHAccessPoint();
             lastAccessPoint.setIpAddress(lastIpAddress);
             lastAccessPoint.setUsername(lastUsername);
-            phHueSDK.connect(lastAccessPoint);
+           
+            if (!phHueSDK.isAccessPointConnected(lastAccessPoint)) {
+               PHWizardAlertDialog.getInstance().showProgressDialog(R.string.connecting, PHHomeActivity.this);
+               phHueSDK.connect(lastAccessPoint);
+            }
+        }
+        else {  // First time use, so perform a bridge search.
+            doBridgeSearch();
         }
 
 	}
@@ -152,11 +158,7 @@ Add Internet and Get Tasks permission and any activities your app requires.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.find_new_bridge:
-            // Display Search Progress animation.
-            PHWizardAlertDialog.getInstance().showProgressDialog(R.string.search_progress, this);
-            PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
-            // Start the UPNP Searching of local bridges.
-            sm.search(true, true);
+            doBridgeSearch();
             break;
         }
         return true;
@@ -191,14 +193,29 @@ Add Internet and Get Tasks permission and any activities your app requires.
 
         @Override
         public void onAccessPointsFound(List<PHAccessPoint> accessPoint) {
-            Log.w(TAG, "Access Points Found.");
+            Log.w(TAG, "Access Points Found. " + accessPoint.size());
 
             PHWizardAlertDialog.getInstance().closeProgressDialog();
             if (accessPoint != null && accessPoint.size() > 0) {
-                phHueSDK.getAccessPointsFound().clear();
-                phHueSDK.getAccessPointsFound().addAll(accessPoint);
-                startActivity(new Intent(getApplicationContext(),PHAccessPointListActivity.class));
-            } 
+                    phHueSDK.getAccessPointsFound().clear();
+                    phHueSDK.getAccessPointsFound().addAll(accessPoint);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.updateData(phHueSDK.getAccessPointsFound());
+                       }
+                   });
+                   
+            } else {
+                // FallBack Mechanism.  If a UPNP Search returns no results then perform an IP Scan. 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                    PHWizardAlertDialog.getInstance().showProgressDialog(R.string.search_progress, PHHomeActivity.this);
+                    PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
+                    // Start the IP Scan Search if the UPNP and NPNP return 0 results.
+                    sm.search(false, false, true);
+                }
+            }
             
         }
 
@@ -208,19 +225,31 @@ Add Internet and Get Tasks permission and any activities your app requires.
 
             if (code == PHHueError.NO_CONNECTION) {
                 Log.w(TAG, "On No Connection");
-            } else if (code == PHHueError.AUTHENTICATION_FAILED) {  
+            } 
+            else if (code == PHHueError.AUTHENTICATION_FAILED || code==1158) {  
                 PHWizardAlertDialog.getInstance().closeProgressDialog();
-            } else if (code == PHHueError.BRIDGE_NOT_RESPONDING) {
-                Log.w("QuickStart", "Bridge Not Responding . . . ");
+            } 
+            else if (code == PHHueError.BRIDGE_NOT_RESPONDING) {
+                Log.w(TAG, "Bridge Not Responding . . . ");
                 PHWizardAlertDialog.getInstance().closeProgressDialog();
                 PHHomeActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (isCurrentActivity()) { PHWizardAlertDialog.showErrorDialog(PHHomeActivity.this, message, R.string.btn_ok); }
+                        PHWizardAlertDialog.showErrorDialog(PHHomeActivity.this, message, R.string.btn_ok);
                     }
                 }); 
 
             } 
+            else if (code == PHMessageType.BRIDGE_NOT_FOUND) {
+                PHWizardAlertDialog.getInstance().closeProgressDialog();
+
+                PHHomeActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        PHWizardAlertDialog.showErrorDialog(PHHomeActivity.this, message, R.string.btn_ok);
+                    }
+                });                
+            }
         }
 
 
@@ -233,89 +262,13 @@ Add Internet and Get Tasks permission and any activities your app requires.
 		}
 		
 	};
-
-###PHAccessPointListActivity.java
-
-**Once a Local Access Point is found, a list of available bridges is displayed.**
-
-	private phHueSDK;
-	private BridgeListAdapter adapter;
 	
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setTitle(R.string.txt_selectbridges);
-        setContentView(R.layout.bridgelistlinear);
-
-        ListView lampList = (ListView) findViewById(R.id.bridge_list);
-        lampList.setOnItemClickListener(this);
-        phHueSDK = PHHueSDK.getInstance();
-        adapter = new BridgeListAdapter(this, phHueSDK.getAccessPointsFound());
-        lampList.setAdapter(adapter);
-        phHueSDK.getNotificationManager().registerSDKListener(listener);
+	public void doBridgeSearch() {
+      PHWizardAlertDialog.getInstance().showProgressDialog(R.string.search_progress, PHHomeActivity.this);
+      PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
+      // Start the UPNP Searching of local bridges.
+      sm.search(true, true);
     }
-	
-	private class BridgeListAdapter extends BaseAdapter{
-		private LayoutInflater mInflater;
-		ArrayList<PHAccessPoint> accessPoints;
-
-        class BridgeListItem {
-            private TextView bridgeIp;
-            private TextView bridgeMac;
-        }
-
-		public BridgeListAdapter(Context context, ArrayList<PHAccessPoint> accessPoints) {
-			// Cache the LayoutInflate to avoid asking for a new one each time.
-			mInflater = LayoutInflater.from(context);
-			this.accessPoints=accessPoints;
-		}
-
-		public View getView(final int position, View convertView, ViewGroup parent) {
-
-			BridgeListItem item;
-
-			if (convertView == null) {
-				convertView = mInflater.inflate(R.layout.selectbridge_item, null);
-				item = new BridgeListItem();
-                item.bridgeMac = (TextView) convertView.findViewById(R.id.bridge_mac);
-                item.bridgeIp = (TextView) convertView.findViewById(R.id.bridge_ip);
-
-				convertView.setTag(item);
-			} else {
-				item = (BridgeListItem) convertView.getTag();
-			}
-			PHAccessPoint accessPoint=accessPoints.get(position);
-            item.bridgeIp.setText(accessPoint.getIpAddress());
-            item.bridgeMac.setText(accessPoint.getMacAddress());
-
-			return convertView;
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return 0;
-		}
-
-		@Override
-		public int getCount() {
-			return accessPoints.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return accessPoints.get(position);
-		}
-		void updateData(ArrayList<PHAccessPoint> accessPoints){
-			this.accessPoints=accessPoints;
-			notifyDataSetChanged();
-		}
-	}
-	
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-		PHAccessPoint accessPoint=(PHAccessPoint) adapter.getItem(position);
-		phHueSDK.connect(accessPoint);
-	}
 	
 ###PHPushlinkActivity.java
 **If first time authentication is required the PushLink activity is called. A progress bar is displayed allowing the user 30 seconds to push the button on the bridge.**
@@ -404,6 +357,8 @@ Add Internet and Get Tasks permission and any activities your app requires.
 **Once connected to a bridge your application activity is started and the fun begins.**	
 	
 ###MyApplicationActivity
+This is where you can create your own app.  If you rename the Activity don't forget to update your AndroidManfiest.xml!
+
 **Once connected to a bridge there are various ways to change a light state**
 
     private static final int MAX_HUE=65535;

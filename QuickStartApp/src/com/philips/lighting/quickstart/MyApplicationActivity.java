@@ -18,6 +18,13 @@ import com.philips.lighting.model.PHHueError;
 import com.philips.lighting.model.PHLight;
 import com.philips.lighting.model.PHLightState;
 
+/**
+ * MyApplicationActivity - The starting point for creating your own Hue App.  
+ * Currently contains a simple view with a button to change your lights to random colours.  Remove this and add your own app implementation here! Have fun!
+ * 
+ * @author SteveyO
+ *
+ */
 public class MyApplicationActivity extends Activity {
     private PHHueSDK phHueSDK;
     private static final int MAX_HUE=65535;
@@ -51,7 +58,7 @@ public class MyApplicationActivity extends Activity {
         for (PHLight light : allLights) {
             PHLightState lightState = new PHLightState();
             lightState.setHue(rand.nextInt(MAX_HUE));
-            // To validate your lightstate is valid (before sending to the bridge, you can use:  (a null validState indicates a valid value
+            // To validate your lightstate is valid (before sending to the bridge) you can use:  
             // String validState = lightState.validateState();
             bridge.updateLightState(light, lightState, listener);
             //  bridge.updateLightState(light, lightState);   // If no bridge response is required then use this simpler form.

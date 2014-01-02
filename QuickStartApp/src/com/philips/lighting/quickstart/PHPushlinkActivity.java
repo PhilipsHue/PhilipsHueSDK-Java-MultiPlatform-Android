@@ -78,7 +78,6 @@ public class PHPushlinkActivity extends Activity {
                 incrementProgress();
             }
             else if (code == PHMessageType.PUSHLINK_AUTHENTICATION_FAILED) {
- //               PHWizardAlertDialog.getInstance().closeProgressDialog();
                 incrementProgress();
 
                 if (!isDialogShowing) {
@@ -105,5 +104,13 @@ public class PHPushlinkActivity extends Activity {
 
         } // End of On Error
     };
+    
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (listener !=null) {
+            phHueSDK.getNotificationManager().unregisterSDKListener(listener);
+        }
+    }
     
 }
