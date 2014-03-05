@@ -93,7 +93,6 @@ public class PHUpdateLightStateActivity extends Activity {
 
         phHueSDK = PHHueSDK.getInstance();
         bridge = phHueSDK.getSelectedBridge();
-        lights = bridge.getResourceCache().getAllLights();
         getLightNames();
 
         TextView tvLight = (TextView) findViewById(R.id.tvLight);
@@ -255,6 +254,7 @@ public class PHUpdateLightStateActivity extends Activity {
      * Reads light names and stores in common container
      */
     private void getLightNames() {
+        lights = bridge.getResourceCache().getAllLights();
         int size = lights.size();
         lightArray = new String[size];
         for (int i = 0; i < size; i++) {
@@ -428,6 +428,7 @@ public class PHUpdateLightStateActivity extends Activity {
                 break;
             }
             int pos = lightSpinner.getSelectedItemPosition();
+            lights = bridge.getResourceCache().getAllLights();
             PHLight light = lights.get(pos);
             if (tbGamutCorrection.isChecked()) {
                 xy = PHUtilities.calculateXY(colorCode, light.getModelNumber());
@@ -568,6 +569,7 @@ public class PHUpdateLightStateActivity extends Activity {
 
         case R.id.read_cache:
             int pos = lightSpinner.getSelectedItemPosition();
+            lights = bridge.getResourceCache().getAllLights();
             PHLight light = lights.get(pos);
             PHLightState lastKnownLightState = light.getLastKnownLightState();
             displayLastKnowLightState(lastKnownLightState);
@@ -597,6 +599,7 @@ public class PHUpdateLightStateActivity extends Activity {
      */
     private void updateLightState() {
         int pos = lightSpinner.getSelectedItemPosition();
+        lights = bridge.getResourceCache().getAllLights();
         PHLight light = lights.get(pos);
         PHLightState state = getCurrentLightState();
         final PHWizardAlertDialog dialogManager = PHWizardAlertDialog
