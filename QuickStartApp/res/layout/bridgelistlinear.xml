@@ -35,7 +35,7 @@
         android:singleLine="true"
         android:text="@string/txt_select_smartbridge"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#FFFFFFFF" />
+        android:textColor="#000" />
 
    
 

@@ -45,6 +45,8 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
     private HueSharedPreferences prefs;
     private AccessPointListAdapter adapter;
     
+    private boolean lastSearchWasIPScan = false;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,15 +116,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
                        }
                    });
                    
-            } else {
-                // FallBack Mechanism.  If a UPNP Search returns no results then perform an IP Scan. Of course it could fail as the user has disconnected their bridge, connected to a wrong network or disabled Network Discovery on their router so it is not guaranteed to work.
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                    PHWizardAlertDialog.getInstance().showProgressDialog(R.string.search_progress, PHHomeActivity.this);
-                    PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
-                    // Start the IP Scan Search if the UPNP and NPNP return 0 results.
-                    sm.search(false, false, true);
-                }
-            }
+            } 
             
         }
         
@@ -197,14 +191,24 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
 
             } 
             else if (code == PHMessageType.BRIDGE_NOT_FOUND) {
-                PHWizardAlertDialog.getInstance().closeProgressDialog();
 
-                PHHomeActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        PHWizardAlertDialog.showErrorDialog(PHHomeActivity.this, message, R.string.btn_ok);
-                    }
-                });                
+                if (!lastSearchWasIPScan) {  // Perform an IP Scan (backup mechanism) if UPNP and Portal Search fails.
+                    phHueSDK = PHHueSDK.getInstance();
+                    PHBridgeSearchManager sm = (PHBridgeSearchManager) phHueSDK.getSDKService(PHHueSDK.SEARCH_BRIDGE);
+                    sm.search(false, false, true);               
+                    lastSearchWasIPScan=true;
+                }
+                else {
+                    PHWizardAlertDialog.getInstance().closeProgressDialog();
+                    PHHomeActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            PHWizardAlertDialog.showErrorDialog(PHHomeActivity.this, message, R.string.btn_ok);
+                        }
+                    });  
+                }
+                
+               
             }
         }
     };
