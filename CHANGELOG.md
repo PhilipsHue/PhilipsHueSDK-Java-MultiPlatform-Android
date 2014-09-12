@@ -1,5 +1,20 @@
 # Android/Java SDK Changelog
 
+## 1.3beta (2014-09-12)
+Features:
+
+  - Java SDK now supports 1.3 bridges.
+  - Added support for sensors
+  - Added support for rules
+  - Added multi resources heartbeat (ie. can run full heartbeat or select your resource, e.g. lights).
+  - Added Feature Based parsing (meaning the SDK checks which bridge version is running and sends commands appropriately).
+
+Changes:
+
+  - API improvements
+  - Bug fixes
+  - Removed sample app as no longer supported.  Code examples are now on our developer portal.
+
 ## 1.1.2beta (2014-01-02)
 Changes:
 
