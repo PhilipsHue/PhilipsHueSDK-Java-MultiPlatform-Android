@@ -14,6 +14,10 @@ Changes:
   - API improvements
   - Bug fixes
   - Removed sample app as no longer supported.  Code examples are now on our developer portal.
+  
+Notes:  
+  - The SDK is fully backwards compatible but updating your app to use the new SDK will result in a few compilation errors.  However, this are all minor and can be easily fixed.  For example PHSDKListener now implements
+  onParsingErrors, onCacheUpdated signature has changed (from an int to a List)
 
 ## 1.1.2beta (2014-01-02)
 Changes:
