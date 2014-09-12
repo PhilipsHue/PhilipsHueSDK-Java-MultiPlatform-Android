@@ -11,7 +11,6 @@ import android.view.WindowManager;
 /**
  * Generic class for Alert and Progress dialogs wizard
  * 
- * @author Stephen O'Reilly
  * 
  */
 
@@ -35,18 +34,17 @@ public final class PHWizardAlertDialog {
      * 
      * @param activityContext
      * @param resID
-     * @param btnNameResId
-     *            String resource id for button name
+     * @param btnNameResId  String resource id for button name
      */
-    public static void showErrorDialog(Context activityContext, String msg,
-            int btnNameResId) {
+    public static void showErrorDialog(Context activityContext, String msg, int btnNameResId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activityContext);
-        builder.setTitle(R.string.title_error).setMessage(msg)
-                .setPositiveButton(btnNameResId, null);
+        builder.setTitle(R.string.title_error).setMessage(msg).setPositiveButton(btnNameResId, null);
         AlertDialog alert = builder.create();
-        alert.getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        alert.show();
+        alert.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        if (! ((Activity) activityContext).isFinishing()) {
+            alert.show();
+        }
+       
     }
 
     /**
@@ -92,8 +90,7 @@ public final class PHWizardAlertDialog {
                     }
                 });
         AlertDialog alert = builder.create();
-        alert.getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        alert.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         alert.show();
     }
 

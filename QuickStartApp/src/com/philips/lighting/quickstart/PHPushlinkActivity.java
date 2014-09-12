@@ -13,12 +13,12 @@ import com.philips.lighting.hue.sdk.PHHueSDK;
 import com.philips.lighting.hue.sdk.PHMessageType;
 import com.philips.lighting.hue.sdk.PHSDKListener;
 import com.philips.lighting.model.PHBridge;
+import com.philips.lighting.model.PHHueParsingError;
 
 /**
  * Activity which gives hint for manual pushlink. needs to add <activity
  * android:theme="@android:style/Theme.Dialog" /> in manifest file
  * 
- * @author Stephen O'Reilly
  * 
  */
 
@@ -64,7 +64,7 @@ public class PHPushlinkActivity extends Activity {
         public void onBridgeConnected(PHBridge arg0) {}
 
         @Override
-        public void onCacheUpdated(int arg0, PHBridge arg1) {}
+        public void onCacheUpdated(List<Integer> arg0, PHBridge bridge) {}
 
         @Override
         public void onConnectionLost(PHAccessPoint arg0) {}
@@ -103,6 +103,9 @@ public class PHPushlinkActivity extends Activity {
             }
 
         } // End of On Error
+
+        @Override
+        public void onParsingErrors(List<PHHueParsingError> parsingErrorsList) {}
     };
     
     @Override

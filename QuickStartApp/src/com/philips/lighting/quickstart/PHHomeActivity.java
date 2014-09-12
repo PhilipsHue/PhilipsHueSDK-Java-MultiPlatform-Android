@@ -23,6 +23,7 @@ import com.philips.lighting.hue.sdk.PHMessageType;
 import com.philips.lighting.hue.sdk.PHSDKListener;
 import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHHueError;
+import com.philips.lighting.model.PHHueParsingError;
 
 /**
  * PHHomeActivity - The starting point in your own Hue App.
@@ -35,7 +36,6 @@ import com.philips.lighting.model.PHHueError;
  * 
  * For explanation on key concepts visit: https://github.com/PhilipsHue/PhilipsHueSDK-Java-MultiPlatform-Android
  * 
- * @author SteveyO
  *
  */
 public class PHHomeActivity extends Activity implements OnItemClickListener {
@@ -121,7 +121,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
         }
         
         @Override
-        public void onCacheUpdated(int flags, PHBridge bridge) {
+        public void onCacheUpdated(List<Integer> arg0, PHBridge bridge) {
             Log.w(TAG, "On CacheUpdated");
 
         }
@@ -210,6 +210,13 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
                 
                
             }
+        }
+
+        @Override
+        public void onParsingErrors(List<PHHueParsingError> parsingErrorsList) {
+            for (PHHueParsingError parsingError: parsingErrorsList) {
+                Log.e(TAG, "ParsingError : " + parsingError.getMessage());
+            }      
         }
     };
 

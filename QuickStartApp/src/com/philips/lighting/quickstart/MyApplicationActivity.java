@@ -1,7 +1,7 @@
 package com.philips.lighting.quickstart;
 
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import android.app.Activity;
@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.philips.lighting.hue.listener.PHLightListener;
 import com.philips.lighting.hue.sdk.PHHueSDK;
 import com.philips.lighting.model.PHBridge;
+import com.philips.lighting.model.PHBridgeResource;
 import com.philips.lighting.model.PHHueError;
 import com.philips.lighting.model.PHLight;
 import com.philips.lighting.model.PHLightState;
@@ -72,13 +73,21 @@ public class MyApplicationActivity extends Activity {
         }
         
         @Override
-        public void onStateUpdate(Hashtable<String, String> arg0, List<PHHueError> arg1) {
+        public void onStateUpdate(Map<String, String> arg0, List<PHHueError> arg1) {
            Log.w(TAG, "Light has updated");
         }
         
         @Override
-        public void onError(int arg0, String arg1) {  
-        }
+        public void onError(int arg0, String arg1) {}
+
+        @Override
+        public void onReceivingLightDetails(PHLight arg0) {}
+
+        @Override
+        public void onReceivingLights(List<PHBridgeResource> arg0) {}
+
+        @Override
+        public void onSearchComplete() {}
     };
     
     @Override

@@ -18,6 +18,7 @@ import com.philips.lighting.hue.sdk.PHSDKListener;
 import com.philips.lighting.model.PHBridge;
 import com.philips.lighting.model.PHBridgeResourcesCache;
 import com.philips.lighting.model.PHHueError;
+import com.philips.lighting.model.PHHueParsingError;
 import com.philips.lighting.model.PHLight;
 import com.philips.lighting.model.PHLightState;
 
@@ -96,7 +97,7 @@ public class Controller {
         }
 
         @Override
-        public void onCacheUpdated(int arg0, PHBridge arg1) {
+        public void onCacheUpdated(List<Integer> arg0, PHBridge arg1) {
         }
 
         @Override
@@ -133,6 +134,13 @@ public class Controller {
                 desktopView.getFindingBridgeProgressBar().setVisible(false);
                 desktopView.getFindBridgesButton().setEnabled(true);
                 desktopView.showDialog(message);
+            }
+        }
+
+        @Override
+        public void onParsingErrors(List<PHHueParsingError> parsingErrorsList) {  
+            for (PHHueParsingError parsingError: parsingErrorsList) {
+                System.out.println("ParsingError : " + parsingError.getMessage());
             }
         } 
     };
