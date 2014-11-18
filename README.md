@@ -18,7 +18,11 @@ Your 3rd party Android apps are now promoted in the official <a href="https://pl
 http://developers.meethue.com/
 
 <hr>
-    
+Acknowledgements
+----------------    
+Please adhere to any third party licenses that are applicable on this SDK when building applications with our SDK or using the QuickStart applications as your base (see ACKNOWLEDGEMENTS file in this repository, for applicable licenses).
+<hr>	
+	
 Philips releases this SDK with friendly house rules. These friendly house rules are part of a legal framework; this to protect both the developers and hue. The friendly house rules cover e.g. the naming of Philips and of hue which can only be used as a reference (a true and honest statement) and not as a an brand or identity. Also covered is that the hue SDK and API can only be used for hue and for no other application or product. Very common sense friendly rules that are common practice amongst leading brands that have released their SDK’s.
 
 
