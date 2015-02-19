@@ -1,5 +1,9 @@
 # Android/Java SDK Changelog
 
+## 1.3.1beta (2015-02-19)
+Changes
+  - Fix to kill hanging timer thread when existing the SDK (after calling destroySDKMethod).
+
 ## 1.3beta (2014-09-12)
 Features:
 
