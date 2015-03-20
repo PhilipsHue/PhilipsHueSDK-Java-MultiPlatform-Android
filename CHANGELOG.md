@@ -1,5 +1,10 @@
 # Android/Java SDK Changelog
 
+## 1.3.1beta (2015-03-20)
+Changes
+  - Fix to kill heartbeat manager when exiting the SDK (after calling destroySDKMethod).  
+  This prevents a NPE when an Android App is destroyed but the GC has not fully released all SDK resources.
+  
 ## 1.3.1beta (2015-02-19)
 Changes
   - Fix to kill hanging timer thread when exiting the SDK (after calling destroySDKMethod).
