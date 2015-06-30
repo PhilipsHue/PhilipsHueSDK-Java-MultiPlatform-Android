@@ -1,5 +1,14 @@
 # Android/Java SDK Changelog
 
+## 1.8beta (2015-06-30)
+Changes
+  - Delete devices added(sensors and lights)
+  - New Clip Increment Feature (new increment* attributes in PHLightState)
+  - New  bridge fields added (e.g .ModelId,  Type in PHGroup, Manufacturername, UniqueId in PHLight, Bridge Id)
+  - New light Models added for Color Conversions (e.g .HueGo).  
+  - UPNP search now returns BridgeId
+  - All bug fixes since previous release. 
+
 ## 1.3.1beta (2015-03-20)
 Changes
   - Fix to kill heartbeat manager when exiting the SDK (after calling destroySDKMethod).  
