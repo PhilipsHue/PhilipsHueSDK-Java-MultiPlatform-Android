@@ -128,12 +128,12 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
         }
 
         @Override
-        public void onBridgeConnected(PHBridge b) {
+        public void onBridgeConnected(PHBridge b, String username) {
             phHueSDK.setSelectedBridge(b);
             phHueSDK.enableHeartbeat(b, PHHueSDK.HB_INTERVAL);
             phHueSDK.getLastHeartbeat().put(b.getResourceCache().getBridgeConfiguration() .getIpAddress(), System.currentTimeMillis());
             prefs.setLastConnectedIPAddress(b.getResourceCache().getBridgeConfiguration().getIpAddress());
-            prefs.setUsername(prefs.getUsername());
+            prefs.setUsername(username);
             PHWizardAlertDialog.getInstance().closeProgressDialog();     
             startMainActivity();
         }
@@ -250,9 +250,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        HueSharedPreferences prefs = HueSharedPreferences.getInstance(getApplicationContext());
         PHAccessPoint accessPoint = (PHAccessPoint) adapter.getItem(position);
-        accessPoint.setUsername(prefs.getUsername());
         
         PHBridge connectedBridge = phHueSDK.getSelectedBridge();       
 

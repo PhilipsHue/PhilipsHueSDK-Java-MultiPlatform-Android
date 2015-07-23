@@ -70,26 +70,21 @@ public class Controller {
         }
 
         @Override
-        public void onBridgeConnected(PHBridge bridge) {
+        public void onBridgeConnected(PHBridge bridge, String username) {
             phHueSDK.setSelectedBridge(bridge);
             phHueSDK.enableHeartbeat(bridge, PHHueSDK.HB_INTERVAL);
             desktopView.getFindingBridgeProgressBar().setVisible(false);
-            String username = HueProperties.getUsername();
             String lastIpAddress =  bridge.getResourceCache().getBridgeConfiguration().getIpAddress();   
-            System.out.println("On connected: IP " + lastIpAddress);
             HueProperties.storeUsername(username);
             HueProperties.storeLastIPAddress(lastIpAddress);
             HueProperties.saveProperties();
-            
             // Update the GUI.
             desktopView.getLastConnectedIP().setText(lastIpAddress);
             desktopView.getLastUserName().setText(username);
-            
             // Close the PushLink dialog (if it is showing).
             if (pushLinkDialog!=null && pushLinkDialog.isShowing()) {
                 pushLinkDialog.setVisible(false);
             }
-            
             // Enable the Buttons/Controls to change the hue bulbs.s
             desktopView.getRandomLightsButton().setEnabled(true);
             desktopView.getSetLightsButton().setEnabled(true);

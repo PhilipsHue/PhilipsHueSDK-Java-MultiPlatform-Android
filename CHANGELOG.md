@@ -1,8 +1,14 @@
 # Android/Java SDK Changelog
 
+## 1.8.1beta (2015-07-23)
+Changes
+  - Removed ability to create your own whitelist username (as will be removed in the bridge in the future).</br></br>
+    <b>Important!!</b>&nbsp;If you are using the QuickStart app as your base code and updating the Java SDK, please check out the small 
+	but important changes (to setting the username) in PHHomeActivity.java , HueSharedPreferences.java and PHPushlinkActivity.java
+
 ## 1.8beta (2015-06-30)
 Changes
-  - Delete devices added(sensors and lights)
+  - Delete devices added (sensors and lights)
   - New Clip Increment Feature (new increment* attributes in PHLightState)
   - New  bridge fields added (e.g .ModelId,  Type in PHGroup, Manufacturername, UniqueId in PHLight, Bridge Id)
   - New light Models added for Color Conversions (e.g .HueGo).  

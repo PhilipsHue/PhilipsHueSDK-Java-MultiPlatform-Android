@@ -53,11 +53,8 @@ public class AccessPointList extends  JFrame {
          public void mouseClicked(MouseEvent e) {
               int mouseClickedIndex = listbox.getSelectedIndex();
              
-              String username = HueProperties.getUsername();
-              HueProperties.storeUsername(username);
               controller.showProgressBar();
               PHHueSDK phHueSDK = PHHueSDK.getInstance();
-              accessPointsList.get(mouseClickedIndex).setUsername(username);
               phHueSDK.connect(accessPointsList.get(mouseClickedIndex));
               setVisible(false);
          }

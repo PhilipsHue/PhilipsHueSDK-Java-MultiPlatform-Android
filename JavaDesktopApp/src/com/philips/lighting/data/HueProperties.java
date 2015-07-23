@@ -45,12 +45,7 @@ public final class HueProperties {
      * Returns the stored Whitelist username.  If it doesn't exist we generate a 16 character random string and store this in the properties file.
      */
     public static String getUsername() {
-        String username = props.getProperty(USER_NAME);
-        
-        if (username==null || username.equals("")) {   // If we don't have a username then we generate a unique 16 character one.
-            username = PHBridgeInternal.generateUniqueKey();
-            storeUsername(username); 
-        }
+        String username = props.getProperty(USER_NAME);        
         return username;
     }
 

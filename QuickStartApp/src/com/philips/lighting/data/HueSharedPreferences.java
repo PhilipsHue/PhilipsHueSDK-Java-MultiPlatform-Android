@@ -35,10 +35,6 @@ public class HueSharedPreferences {
     
     public String getUsername() {
          String username = mSharedPreferences.getString(LAST_CONNECTED_USERNAME, "");
-         if (username==null || username.equals("")) {
-             username = PHBridgeInternal.generateUniqueKey();
-             setUsername(username);  // Persist the username in the shared prefs
-         }
     	 return username;
 	}
 
