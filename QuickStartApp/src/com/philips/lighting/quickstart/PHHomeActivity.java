@@ -177,7 +177,7 @@ public class PHHomeActivity extends Activity implements OnItemClickListener {
             if (code == PHHueError.NO_CONNECTION) {
                 Log.w(TAG, "On No Connection");
             } 
-            else if (code == PHHueError.AUTHENTICATION_FAILED || code==1158) {  
+            else if (code == PHHueError.AUTHENTICATION_FAILED || code==PHMessageType.PUSHLINK_AUTHENTICATION_FAILED) {  
                 PHWizardAlertDialog.getInstance().closeProgressDialog();
             } 
             else if (code == PHHueError.BRIDGE_NOT_RESPONDING) {
