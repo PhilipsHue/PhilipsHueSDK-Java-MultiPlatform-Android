@@ -1,5 +1,9 @@
 # Android/Java SDK Changelog
 
+## 1.8.2beta (2015-09-03)
+Changes
+  - Fix to huelocalsdk.jar so DestroySDK method works if Pushlinking has been called (i.e. All Pushlinking Threads are now correctly killed).
+	
 ## 1.8.1beta (2015-07-23)
 Changes
   - Removed ability to create your own whitelist username (as will be removed in the bridge in the future).</br></br>
