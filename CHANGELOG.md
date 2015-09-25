@@ -1,5 +1,9 @@
 # Android/Java SDK Changelog
 
+## 1.8.3beta (2015-09-25)
+Changes
+  - Minor fix to huelocalsdk.jar so the IP Scan only finds Hue Bridges.
+
 ## 1.8.2beta (2015-09-03)
 Changes
   - Fix to huelocalsdk.jar so DestroySDK method works if Pushlinking has been called (i.e. All Pushlinking Threads are now correctly killed).
