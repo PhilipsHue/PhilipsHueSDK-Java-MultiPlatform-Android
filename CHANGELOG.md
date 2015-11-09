@@ -1,5 +1,9 @@
 # Android/Java SDK Changelog
 
+## 1.10 (2015-11-09)
+Changes
+  - Implemented Bridge API 1.9 and 1.10 features.  Bridge Backup (Factorynew + replacesbridgeid),  Uniqueid, Luminaireuniqueid and touchlink.
+
 ## 1.8.3beta (2015-09-25)
 Changes
   - Minor fix to huelocalsdk.jar so the IP Scan only finds Hue Bridges.
