@@ -1,5 +1,10 @@
 # Android/Java SDK Changelog
 
+## 1.10.1 (2015-12-07)
+Changes
+  - Can now create a PHGroup with an empty constructor (more logical as when you create a group the group identifier is not known).
+  - Minor bug fix,  when renaming lights removed /name from the URL (works on the bridge anyway, but not correct).
+
 ## 1.10 (2015-11-09)
 Changes
   - Implemented Bridge API 1.9 and 1.10 features.  Bridge Backup (Factorynew + replacesbridgeid),  Uniqueid, Luminaireuniqueid and touchlink.
