@@ -2,8 +2,8 @@
 
 ## 1.11 (2015-12-18)
 Changes
-  - Implemented API 1.11 changes.  In particular minor modifications to PHGroups (for type Room) and many modifications to the Scenes API. See the <a href="/documentation/java-sdk-getting-started#usingScenes">Using Scenes</a> page for more info. 
-  - Added ability to make HTTP calls directly in the SDK in order to use the Hue Rest API. See <a href="/documentation/java-sdk-getting-started#usingHttpRequests">Using Http Requests</a> page for more info.
+  - Implemented API 1.11 changes.  In particular minor modifications to PHGroups (for type Room) and many modifications to the Scenes API. See the <a href="http://www.developers.meethue.com/documentation/java-sdk-getting-started#usingScenes">Using Scenes</a> page for more info. 
+  - Added ability to make HTTP calls directly in the SDK in order to use the Hue Rest API. See <a href="http://www.developers.meethue.com/documentation/java-sdk-getting-started#usingHttpRequests">Using Http Requests</a> page for more info.
 
 ## 1.10.1 (2015-12-07)
 Changes
