@@ -1,5 +1,10 @@
 # Android/Java SDK Changelog
 
+## 1.11.1 (2015-12-21)
+Changes
+  - Minor bug fix when creating a scene on 1.11 bridge.
+
+
 ## 1.11 (2015-12-18)
 Changes
   - Implemented API 1.11 changes.  In particular minor modifications to PHGroups (for type Room) and many modifications to the Scenes API. See the <a href="http://www.developers.meethue.com/documentation/java-sdk-getting-started#usingScenes">Using Scenes</a> page for more info. 
