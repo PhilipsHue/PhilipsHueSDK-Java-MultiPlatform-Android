@@ -1,9 +1,12 @@
 # Android/Java SDK Changelog
 
+## 1.11.2 (2015-12-22)
+Changes
+  - Minor bug fix when getting the brightness increment from a schedule.
+
 ## 1.11.1 (2015-12-21)
 Changes
   - Minor bug fix when creating a scene on 1.11 bridge.
-
 
 ## 1.11 (2015-12-18)
 Changes
