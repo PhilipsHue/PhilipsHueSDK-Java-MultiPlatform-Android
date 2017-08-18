@@ -1,5 +1,9 @@
 # Android/Java SDK Changelog
 
+## 1.20.1 (2017-08-18)
+Changes
+  - Critical bug fix regarding missing methods and classes
+
 ## 1.20 (2017-08-04)
 Changes
   - Critical bug fix regarding 1.20 bridge firmware and commissioning sensors and switches.
