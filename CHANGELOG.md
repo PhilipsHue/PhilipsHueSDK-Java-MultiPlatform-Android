@@ -1,5 +1,9 @@
 # Android/Java SDK Changelog
 
+## 1.22.0 (2017-10-21)
+Changes
+  - Fixed serialization issue in PHGroup
+
 ## 1.20.2 (2017-08-19)
 Changes
   - Changed Java compliance level to 1.6
