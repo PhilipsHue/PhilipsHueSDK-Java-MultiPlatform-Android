@@ -1,3 +1,27 @@
+# This repository is deprecated.
+
+**Deprecation – Philips Hue SDK**
+
+We have decided to **deprecate the hue SDK** effective **as of July 1st 2019**. This means there will be no new SDK releases except for critical updates (e.g. security) which will be maintained for one additional year. Existing Hue SDK client applications will continue to work normally but we can no longer guarantee long term compatibility with future Hue software. We strongly recommend Hue SDK users to migrate to Hue API which remains up-to-date and supported.
+
+**FAQ**
+
+**Why is this changing?** Philips Hue has decided to focus its resources into improving the Hue API and building new features. The usage of the SDK has been declining as has our own dependence on it so we feel it is more beneficial to focus on building directly on the Hue API.
+
+**Who’s Impacted?** Anyone who is leveraging the Philips Hue SDK.
+
+**Who’s Not Impacted?** Anyone who is not utilizing the Philips Hue SDK.
+
+**What should you use instead?** Philips Hue API
+
+**Next steps?** Migration code samples and best practice blogs by Hue Developer Program.
+
+**Question?** Contact us! https://developers.meethue.com/support/
+
+**See also:** https://developers.meethue.com/deprecation-philips-hue-sdk/
+
+-----
+
 The Hue SDK by Philips
 ===============
  (c) Copyright Philips 2012-2014
@@ -23,7 +47,7 @@ Acknowledgements
 Please adhere to any third party licenses that are applicable on this SDK when building applications with our SDK or using the QuickStart applications as your base (see ACKNOWLEDGEMENTS file in this repository, for applicable licenses).
 <hr>	
 	
-Philips releases this SDK with friendly house rules. These friendly house rules are part of a legal framework; this to protect both the developers and hue. The friendly house rules cover e.g. the naming of Philips and of hue which can only be used as a reference (a true and honest statement) and not as a an brand or identity. Also covered is that the hue SDK and API can only be used for hue and for no other application or product. Very common sense friendly rules that are common practice amongst leading brands that have released their SDK�s.
+Philips releases this SDK with friendly house rules. These friendly house rules are part of a legal framework; this to protect both the developers and hue. The friendly house rules cover e.g. the naming of Philips and of hue which can only be used as a reference (a true and honest statement) and not as a an brand or identity. Also covered is that the hue SDK and API can only be used for hue and for no other application or product. Very common sense friendly rules that are common practice amongst leading brands that have released their SDK’s.
 
 
 Copyright (c) 2012- 2013, Philips Electronics N.V. All rights reserved.
